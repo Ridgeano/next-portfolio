@@ -35,7 +35,7 @@ export function Landing() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 1 }}
-        className="font-extralight text-center md:text-4xl dark:text-neutral-200 py-4"
+        className="font-extralight text-center md:text-4xl dark:text-neutral-200 py-12 "
       >
         scroll down to continue
       </motion.div>
