@@ -2,12 +2,8 @@
 import React from "react";
 import { SparklesCore } from "./ui/sparkles";
 import { motion } from "framer-motion";
-import { Rubik_Mono_One,Major_Mono_Display } from "next/font/google";
+import {Major_Mono_Display } from "next/font/google";
  
-const rubikMonoOne = Rubik_Mono_One({
-  subsets: ["latin"],
-  weight: "400",
-});
 const majorMonoDisplay = Major_Mono_Display({
   subsets: ["latin"],
   weight: "400",
@@ -15,9 +11,8 @@ const majorMonoDisplay = Major_Mono_Display({
 
 export function SparkleHero() {
   return (
-    //STARSBACKGROUND
     <>
-  <div className={`${majorMonoDisplay.className} dark relative h-screen gap-4 bg-[linear-gradient(to_top,_var(--tw-gradient-stops))] from-pink-950 from-5% to-zinc-950 to-30% flex flex-col items-center justify-center overflow-hidden`}>
+    <div className={`${majorMonoDisplay.className} dark relative h-screen gap-4 bg-[linear-gradient(to_top,_var(--tw-gradient-stops))] from-pink-950 from-5% to-zinc-950 to-30% flex flex-col items-center justify-center overflow-hidden`}>
     
     <div className="absolute inset-0 h-screen">
       <SparklesCore
