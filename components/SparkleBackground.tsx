@@ -1,12 +1,13 @@
 "use client"
 import React from "react"
 import { SparklesCore } from "./ui/sparkles"
-import { Major_Mono_Display } from "next/font/google"
 
 
 export function SparkleBackground() {
   return (
-    <div className="fixed inset-0 h-screen w-screen bg-[linear-gradient(to_top,_var(--tw-gradient-stops))] from-pink-950 from-5% to-zinc-950 to-30%">
+    <div className="fixed inset-0 h-screen w-screen 
+    bg-[linear-gradient(to_top,_var(--tw-gradient-stops))]
+     from-pink-950 from-5% to-zinc-950 to-30%">
       <SparklesCore
         id="tsparticlesfullpage"
         background="transparent"
