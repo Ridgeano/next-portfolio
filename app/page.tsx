@@ -1,13 +1,29 @@
-import { SparkleHero } from "@/components/sparklehero";
-import { AuroraHero } from "@/components/aurorahero";
+"use client"
 
+import { SparkleBackground } from "@/components/SparkleBackground"
+import { Landing } from "@/components/Landing"
+import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
 
 export default function Home() {
-  return (
-    <>
+  const [isLoaded, setIsLoaded] = useState(false)
 
-    {/*<Hero/>*/}
-    <SparkleHero/>
-    </>
-  );
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
+
+  return (
+    <main className="relative">
+      <SparkleBackground />
+      {isLoaded && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <Landing />
+        </motion.div>
+      )}
+    </main>
+  )
 }
