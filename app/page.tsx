@@ -1,17 +1,18 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState} from "react"
 import { motion, AnimatePresence, useScroll } from "framer-motion"
 import { SparkleBackground } from "@/components/SparkleBackground"
 import { Landing } from "@/components/Landing"
 import { Preloader } from "@/components/Preloader"
 import { About } from "@/components/About"
+import { TransitionSlide } from "@/components/TransitionSlide"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   const handleLoadingComplete = () => {
-    setTimeout(() => setIsLoading(false), 500) // Add a small delay for smoother transition
+    setTimeout(() => setIsLoading(false), 500) 
   }
   const { scrollYProgress } = useScroll();
 
@@ -34,6 +35,7 @@ export default function Home() {
         <SparkleBackground />
         <Landing />
         <About/>
+        <TransitionSlide/>
       </motion.div>
     </main>
   )
