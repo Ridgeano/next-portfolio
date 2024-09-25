@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 
 export function About() {
   const containerRef = useRef(null)
@@ -9,11 +9,6 @@ export function About() {
     target: containerRef,
     offset: ["start end", "end start"]
   })
-
-  const paragraphVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  }
 
   return (
     <div ref={containerRef} className="relative overflow-hidden min-h-screen">
@@ -44,7 +39,7 @@ export function About() {
             </h2>
           </motion.div>
           <div className="sm:w-1/2 space-y-24 mt-12 sm:mt-0">
-            <motion.div className="space-y-8 ">
+            <div className="space-y-24">
               {[
                 {
                   text: "I'm a passionate software developer based in the UK, with a keen eye for creating efficient, scalable, and user-friendly applications. With a strong foundation in both front-end and back-end technologies, I bring a holistic approach to every project I undertake.",
@@ -58,33 +53,55 @@ export function About() {
                   heading: "WHY WORK WITH ME?",
                   text: "I'm not just a coder; I'm a problem solver. I thrive on challenges and am always eager to learn new technologies. My commitment to clean, maintainable code and my ability to communicate complex technical concepts to non-technical stakeholders make me an asset to any development team."
                 },
-                /*{
-                  heading: "LOOKING FORWARD",
-                  text: "I'm always on the lookout for exciting projects and opportunities to grow. Whether it's a startup looking to build their MVP or an established company needing to modernize their tech stack, I'm ready to bring my skills and enthusiasm to the table."
-                }*/
               ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  variants={paragraphVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                >
-                  {item.heading && (
-                    <h3 className="text-3xl sm:text-4xl font-bold text-pink-500 mb-4">
-                      {item.heading}
-                    </h3>
-                  )}
-                  <p className="text-lg sm:text-xl text-white">
-                    {item.text}
-                  </p>
-                </motion.div>
+                <AnimatedParagraph 
+                  key={index} 
+                  item={item} 
+                  index={index} 
+                  scrollYProgress={scrollYProgress}
+                />
               ))}
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  )
+}
+
+function AnimatedParagraph({ item, index, scrollYProgress }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { amount: 0.3, once: false })
+
+  const opacity = useTransform(
+    scrollYProgress,
+    [index * 0.2, index * 0.2 + 0.1, index * 0.2 + 0.6, index * 0.2 + 0.7],
+    [0, 1, 1, 0]
+  )
+
+  const y = useTransform(
+    scrollYProgress,
+    [index * 0.2, index * 0.2 + 0.1, index * 0.2 + 0.6, index * 0.2 + 0.7],
+    [50, 0, 0, -50]
+  )
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{
+        opacity,
+        y,
+      }}
+      transition={{ duration: 0.5 }}
+    >
+      {item.heading && (
+        <h3 className="text-3xl sm:text-4xl font-bold text-pink-500 mb-4">
+          {item.heading}
+        </h3>
+      )}
+      <p className="text-lg sm:text-xl text-white">
+        {item.text}
+      </p>
+    </motion.div>
   )
 }
