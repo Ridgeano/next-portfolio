@@ -1,13 +1,21 @@
-"use client"
-import React from "react"
-import { SparklesCore } from "./ui/sparkles"
+import { SparklesCore } from "@/components/ui/sparkles"
+import { motion } from "framer-motion"
 
+interface SparkleBackgroundProps {
+  isScrolledPast70: boolean
+}
 
-export function SparkleBackground() {
+export function SparkleBackground({ isScrolledPast70 }: SparkleBackgroundProps) {
   return (
-    <div className="fixed inset-0 h-screen w-screen 
-    bg-[linear-gradient(to_top,_var(--tw-gradient-stops))]
-     from-pink-950 from-5% to-zinc-950 to-30%">
+    <motion.div 
+      className="fixed inset-0 h-screen w-screen bg-[linear-gradient(to_top,_var(--tw-gradient-stops))]"
+      animate={{
+        "--tw-gradient-from": isScrolledPast70 ? "#ec407a" : "#4c0519", // pink-400 : pink-950
+        "--tw-gradient-to": isScrolledPast70 ? "#f3f4f6" : "#09090b", // zinc-100 : zinc-950
+        "--tw-gradient-stops": "var(--tw-gradient-from) 5%, var(--tw-gradient-to) 30%"
+      }}
+      transition={{ duration: 0.5 }}
+    >
       <SparklesCore
         id="tsparticlesfullpage"
         background="transparent"
@@ -15,8 +23,8 @@ export function SparkleBackground() {
         maxSize={4.2}
         particleDensity={7}
         className="w-full h-full"
-        particleColor="#831843"
+        particleColor="#ec4899" // pink-500
       />
-    </div>
+    </motion.div>
   )
 }
