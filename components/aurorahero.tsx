@@ -21,7 +21,7 @@ export function AuroraHero() {
       className="bg-[radial-gradient(circle_at_bottom,_var(--tw-gradient-stops))]  from-pink-950 from-5% to-zinc-950 to-45%" 
       starDensity={0.00005}/>
       <motion.div
-        initial={{ opacity: 0.0, y: 800 }}
+        initial={{ opacity: 0.0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{
           delay: 0.3,
@@ -29,7 +29,8 @@ export function AuroraHero() {
           ease: "easeInOut",
         }}
         className="dark relative flex flex-col justify-between h-screen gap-4"
-      >
+        >
+          
         <div className="text-6xl md:text-9xl font-bold text-wrap dark:text-pink-800 text-center">
           Sean Ridgeon
         </div>

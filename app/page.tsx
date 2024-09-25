@@ -1,4 +1,5 @@
-import { AuroraHero } from "../components/aurorahero";
+import { SparkleHero } from "@/components/sparklehero";
+import { AuroraHero } from "@/components/aurorahero";
 
 
 export default function Home() {
@@ -6,7 +7,7 @@ export default function Home() {
     <>
 
     {/*<Hero/>*/}
-    <AuroraHero/>
+    <SparkleHero/>
     </>
   );
 }
