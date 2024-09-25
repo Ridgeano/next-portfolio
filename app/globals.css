@@ -10,6 +10,17 @@ body {
   font-family: var(--font-major-mono);
 }
 
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background:#9d174d;
+  transform-origin: 0%;
+  z-index: 1000;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
