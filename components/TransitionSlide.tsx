@@ -11,7 +11,7 @@ export function TransitionSlide() {
   })
 
   const textScale = useTransform(scrollYProgress, [0, 0.3, 0.6], [1, 1.2, 20])
-  const textOpacity = useTransform(scrollYProgress, [0, 0.1, 0.3, 0.6], [0, 1, 1, 0])
+  const textOpacity = useTransform(scrollYProgress, [0, 0.1, 0.3, 0.4], [0, 1, 1, 0])
 
 
   return (
