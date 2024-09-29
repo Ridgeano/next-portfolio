@@ -16,7 +16,7 @@ export function TransitionSlide() {
 
   return (
     <div ref={containerRef} className="h-[200vh] w-full relative">
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+      <div className="sticky top-0 h-1/2 w-full flex items-center justify-center overflow-hidden">
         <motion.div
           className="relative flex items-center justify-center w-full h-full px-4"
           style={{ scale: textScale, opacity: textOpacity }}

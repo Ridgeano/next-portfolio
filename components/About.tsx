@@ -1,12 +1,11 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef} from "react";
 import {
   motion,
   useScroll,
   useTransform,
-  useInView,
-  useAnimation,
+
 } from "framer-motion";
 
 
@@ -57,7 +56,7 @@ export function About() {
             />
           </motion.div>
           <div className="sm:w-1/2 space-y-24 mt-12 sm:mt-0">
-            <div className="space-y-24">
+            <div className="space-y-20">
               {[
                 {
                   text: "I'm a passionate software developer based in the UK, with a keen eye for creating efficient, scalable, and user-friendly applications. With a strong foundation in both front-end and back-end technologies, I bring a holistic approach to every project I undertake.",

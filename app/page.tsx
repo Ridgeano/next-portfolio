@@ -7,7 +7,11 @@ import { Landing } from "@/components/Landing"
 import { Preloader } from "@/components/Preloader"
 import { About } from "@/components/About"
 import { TransitionSlide } from "@/components/TransitionSlide"
+import Contact from "@/components/Contact"
+
+
 import CursorFollower from "@/components/ui/cursorFollow"
+
 
 export default function Component() {
   const [isLoading, setIsLoading] = useState(true)
@@ -53,7 +57,8 @@ export default function Component() {
         <SparkleBackground isScrolledPast70={isScrolledPast70} />
         <Landing />
         <About />
-        <TransitionSlide/>
+        {/*<TransitionSlide/>*/}
+        <Contact/>
       </motion.div>
     </motion.main>
   )
