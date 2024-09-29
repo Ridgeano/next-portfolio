@@ -17,8 +17,8 @@ export function About() {
   });
 
   return (
-    <div ref={containerRef} className="relative overflow-hidden min-h-screen">
-      <div className="absolute inset-0">
+    <div ref={containerRef} className="relative min-h-screen">
+      <div className="inset-0">
         {[...Array(50)].map((_, i) => (
           <div
             key={i}

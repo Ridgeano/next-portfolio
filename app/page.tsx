@@ -6,11 +6,11 @@ import { SparkleBackground } from "@/components/SparkleBackground"
 import { Landing } from "@/components/Landing"
 import { Preloader } from "@/components/Preloader"
 import { About } from "@/components/About"
-import { TransitionSlide } from "@/components/TransitionSlide"
 import Contact from "@/components/Contact"
 
 
 import CursorFollower from "@/components/ui/cursorFollow"
+import { Projects } from "@/components/Projects"
 
 
 export default function Component() {
@@ -28,7 +28,7 @@ export default function Component() {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setIsScrolledPast70(latest > 0.7)
+    setIsScrolledPast70(latest > 0.85)
   })
 
   return (
@@ -58,7 +58,8 @@ export default function Component() {
         <Landing />
         <About />
         {/*<TransitionSlide/>*/}
-        <Contact/>
+        <Projects />
+        <Contact />
       </motion.div>
     </motion.main>
   )

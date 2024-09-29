@@ -25,7 +25,7 @@ export default function Contact() {
   }
 
   return (
-    <section ref={containerRef} className="min-h-screen flex items-center justify-center bg-zinc-950 text-white p-4 relative overflow-hidden">
+    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center bg-zinc-950 text-white p-4 overflow-hidden">
       <div className="max-w-4xl w-full z-10">
         <motion.h2 
           className="text-5xl font-bold mb-12 text-center text-pink-800"
