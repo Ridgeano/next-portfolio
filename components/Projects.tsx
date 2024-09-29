@@ -32,9 +32,9 @@ export function Projects() {
 
   return (
     <>
-      <div className="relative min-h-screen dark lowercase">
+      <div className="relative min-h-screen lowercase">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <h2 className="text-5xl sm:text-6xl font-bold leading-tight mb-4 text-white">
+          <h2 className="text-5xl sm:text-6xl font-bold leading-tight mb-4 text-zinc-950">
             PROJECTS
           </h2>
         </div>
@@ -74,7 +74,8 @@ export function Projects() {
               <motion.div
                 layoutId={`card-${active.title}-${id}`}
                 ref={ref}
-                className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
+                className="w-full max-w-[500px]  h-full md:h-fit md:max-h-[90%]  
+                flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
               >
                 <motion.div layoutId={`image-${active.title}-${id}`}>
                   <Image
@@ -133,15 +134,15 @@ export function Projects() {
         </AnimatePresence>
 
         {/*CARD PREVIEW*/}
-        <ul className="max-w-2xl mx-auto w-full gap-4">
+        <ul className="max-w-7xl mx-auto w-full gap-4 px-4 sm:px-6 lg:px-8 ">
           {cards.map((card, index) => (
             <motion.div
               layoutId={`card-${card.title}-${id}`}
               key={`card-${card.title}-${id}`}
               onClick={() => setActive(card)}
-              className="p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded-xl cursor-pointer"
+              className="p-4 flex flex-col md:flex-row justify-between items-center hover:bg-neutral-50 dark:hover:bg-pink-500 rounded-xl cursor-pointer"
             >
-              <div className="flex gap-4 flex-col md:flex-row ">
+              <div className="flex gap-4 flex-col md:flex-row">
                 <motion.div layoutId={`image-${card.title}-${id}`}>
                   <Image
                     width={100}

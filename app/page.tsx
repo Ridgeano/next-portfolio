@@ -28,7 +28,7 @@ export default function Component() {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setIsScrolledPast70(latest > 0.85)
+    setIsScrolledPast70(latest > 0.5)
   })
 
   return (
