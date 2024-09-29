@@ -27,7 +27,11 @@ export default function Home() {
   })
 
   return (
-    <main className="relative">
+    <motion.main
+      className="relative"
+      initial={false}
+      animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "visible" }}
+    >
       <AnimatePresence>
         {isLoading && (
           <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
@@ -48,6 +52,6 @@ export default function Home() {
         <About />
         <TransitionSlide/>
       </motion.div>
-    </main>
+    </motion.main>
   )
 }

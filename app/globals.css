@@ -16,9 +16,16 @@ body {
   left: 0;
   right: 0;
   height: 10px;
-  background:#9d174d;
+  background:#ec4899;
   transform-origin: 0%;
   z-index: 1000;
+}
+
+@layer utilities {
+  .scroll-lock {
+    overflow: hidden;
+    height: 100vh;
+  }
 }
 
 @layer base {
