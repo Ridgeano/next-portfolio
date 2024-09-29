@@ -7,6 +7,7 @@ import { Landing } from "@/components/Landing"
 import { Preloader } from "@/components/Preloader"
 import { About } from "@/components/About"
 import { TransitionSlide } from "@/components/TransitionSlide"
+import CursorFollower from "@/components/ui/cursorFollow"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -37,6 +38,7 @@ export default function Home() {
           <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
         )}
       </AnimatePresence>
+      <CursorFollower />
       <motion.div
         className="progress-bar"
         style={{ scaleX: scrollYProgress }}
