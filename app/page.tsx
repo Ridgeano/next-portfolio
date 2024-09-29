@@ -9,7 +9,7 @@ import { About } from "@/components/About"
 import { TransitionSlide } from "@/components/TransitionSlide"
 import CursorFollower from "@/components/ui/cursorFollow"
 
-export default function Home() {
+export default function Component() {
   const [isLoading, setIsLoading] = useState(true)
   const [isScrolledPast70, setIsScrolledPast70] = useState(false)
   const contentRef = useRef(null)
@@ -33,12 +33,12 @@ export default function Home() {
       initial={false}
       animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "visible" }}
     >
+
       <AnimatePresence>
         {isLoading && (
           <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
         )}
       </AnimatePresence>
-      <CursorFollower />
       <motion.div
         className="progress-bar"
         style={{ scaleX: scrollYProgress }}
@@ -49,6 +49,7 @@ export default function Home() {
         animate={{ opacity: isLoading ? 0 : 1 }}
         transition={{ duration: 1 }}
       >
+        <CursorFollower />
         <SparkleBackground isScrolledPast70={isScrolledPast70} />
         <Landing />
         <About />
