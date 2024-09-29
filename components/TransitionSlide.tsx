@@ -21,7 +21,7 @@ export function TransitionSlide() {
           className="relative flex items-center justify-center w-full h-full px-4"
           style={{ scale: textScale, opacity: textOpacity }}
         >
-          <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold text-zinc-100 tracking-widest text-center">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold text-zinc-300 tracking-widest text-center">
             PROJECTS
           </h1>
         </motion.div>

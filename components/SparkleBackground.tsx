@@ -11,7 +11,7 @@ export function SparkleBackground({ isScrolledPast70 }: SparkleBackgroundProps) 
       className="fixed inset-0 h-screen w-screen bg-[linear-gradient(to_top,_var(--tw-gradient-stops))]"
       animate={{
         "--tw-gradient-from": isScrolledPast70 ? "#ec407a" : "#4c0519", // pink-400 : pink-950
-        "--tw-gradient-to": isScrolledPast70 ? "#f3f4f6" : "#09090b", // zinc-100 : zinc-950
+        "--tw-gradient-to": isScrolledPast70 ? "#D4D4D8" : "#09090b", // zinc-300 : zinc-950
         "--tw-gradient-stops": "var(--tw-gradient-from) 5%, var(--tw-gradient-to) 30%"
       }}
       transition={{ duration: 0.5 }}
