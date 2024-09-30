@@ -6,7 +6,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 
 export function Projects() {
-  const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(null);
+  const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
+    null
+  );
   const ref = useRef<HTMLDivElement>(null);
   const id = useId();
 
@@ -87,12 +89,6 @@ export function Projects() {
                       >
                         {active.title}
                       </motion.h3>
-                      <motion.p
-                        layoutId={`description-${active.description}-${id}`}
-                        className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 mt-2"
-                      >
-                        {active.description}
-                      </motion.p>
                     </div>
 
                     <motion.a
@@ -112,7 +108,9 @@ export function Projects() {
                       exit={{ opacity: 0 }}
                       className="text-neutral-600 text-base sm:text-lg h-60 sm:h-auto pb-10 flex flex-col items-start gap-4 overflow-auto dark:text-neutral-400 [mask:linear-gradient(to_bottom,white,white,transparent)] [scrollbar-width:none] [-ms-overflow-style:none] [-webkit-overflow-scrolling:touch]"
                     >
-                      {typeof active.content === "function" ? active.content() : active.content}
+                      {typeof active.content === "function"
+                        ? active.content()
+                        : active.content}
                     </motion.div>
                   </div>
                 </div>
@@ -147,12 +145,6 @@ export function Projects() {
                   >
                     {card.title}
                   </motion.h3>
-                  <motion.p
-                    layoutId={`description-${card.description}-${id}`}
-                    className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 text-center md:text-left mt-2"
-                  >
-                    {card.description}
-                  </motion.p>
                 </div>
               </div>
               <motion.button
@@ -195,31 +187,24 @@ export const CloseIcon = () => {
 
 const cards = [
   {
-    title: "PROJECT 1",
-    description: "Lorem Ipsum is simply dummy text of the printing ",
-    src: "/placeholder.svg?height=400&width=800",
+    title: "gazetteer",
+    src: "/gazetteer.png",
     ctaText: "Github",
     ctaLink: "https://github.com",
     content: () => {
       return (
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
+          A "mobile first" web application that will operates equally
+          well on desktop computers. Gazetter provides comprehensive
+          profiles for all countries, presenting demographic, climatic,
+          geographical data.
         </p>
       );
     },
   },
   {
     title: "PROJECT 2",
-    description: "Lorem Ipsum is simply dummy text of the printing ",
-    src: "/placeholder.svg?height=400&width=800",
+    src: "/nuxt-port-logo.png",
     ctaText: "Github",
     ctaLink: "https://github.com",
     content: () => {
@@ -239,11 +224,10 @@ const cards = [
     },
   },
   {
-    title: "PROJECT 3",
-    description: "Lorem Ipsum is simply dummy text of the printing ",
-    src: "/placeholder.svg?height=400&width=800",
+    title: "Portfolio",
+    src: "/nuxt-port-logo.png",
     ctaText: "Github",
-    ctaLink: "https://github.com",
+    ctaLink: "https://github.com/Ridgeano/next-portfolio",
     content: () => {
       return (
         <p>
