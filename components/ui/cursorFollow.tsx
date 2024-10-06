@@ -8,7 +8,7 @@ export default function CursorFollower() {
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
 
-  const springConfig = { damping: 25, stiffness: 700 }
+  const springConfig = { damping: 150, stiffness: 700 }
   const cursorXSpring = useSpring(cursorX, springConfig)
   const cursorYSpring = useSpring(cursorY, springConfig)
 
@@ -20,8 +20,8 @@ export default function CursorFollower() {
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
-      cursorX.set(e.clientX - 20)
-      cursorY.set(e.clientY - 20)
+      cursorX.set(e.clientX - 10)
+      cursorY.set(e.clientY - 10)
     }
 
     window.addEventListener("mousemove", moveCursor)
@@ -43,9 +43,10 @@ export default function CursorFollower() {
         zIndex: 9999,
         pointerEvents: "none",
         opacity: isVisible ? 1 : 0,
+        mixBlendMode: "difference",
       }}
     >
-      <div className="w-10 h-10 rounded-full border-2 border-pink-500 opacity-50 " />
+      <div className="w-5 h-5 rounded-full bg-white" />
     </motion.div>
   )
 }

@@ -23,7 +23,7 @@ export function Preloader({ onLoadingComplete }: { onLoadingComplete: () => void
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-pink-800"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800"
       initial={{ clipPath: 'inset(0 0 0 0)' }}
       animate={{ clipPath: progress === 100 ? 'inset(100% 0 0 0)' : 'inset(0 0 0 0)' }}
       transition={{ duration: 0.5, ease: 'easeInOut' }}

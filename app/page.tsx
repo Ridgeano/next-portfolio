@@ -2,15 +2,11 @@
 
 import { useState, useRef } from "react"
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion"
-import { SparkleBackground } from "@/components/SparkleBackground"
-import { Landing } from "@/components/Landing"
 import { Preloader } from "@/components/Preloader"
-import { About } from "@/components/About"
-import Contact from "@/components/Contact"
 
-
+import Hero from "@/components/Hero"
+import Nav from "@/components/Nav"
 import CursorFollower from "@/components/ui/cursorFollow"
-import { Projects } from "@/components/Projects"
 
 
 export default function Component() {
@@ -32,6 +28,7 @@ export default function Component() {
   })
 
   return (
+    <div className="min-h-screen bg-gray-100">
     <motion.main
       className="relative"
       initial={false}
@@ -43,24 +40,10 @@ export default function Component() {
           <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
         )}
       </AnimatePresence>
-      <motion.div
-        className="progress-bar"
-        style={{ scaleX: scrollYProgress }}
-      />
-      <motion.div
-        ref={contentRef}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isLoading ? 0 : 1 }}
-        transition={{ duration: 1 }}
-      >
-        <CursorFollower />
-        <SparkleBackground isScrolledPast70={isScrolledPast70} />
-        <Landing />
-        <About />
-        {/*<TransitionSlide/>*/}
-        <Projects />
-        <Contact />
-      </motion.div>
+    <CursorFollower/>
+    <Nav/>
+    <Hero/>
     </motion.main>
+    </div>
   )
 }
