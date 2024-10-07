@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useRef, useMemo } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import React, { useRef, useMemo, useCallback } from 'react'
+import { Canvas, useFrame, useThree, RootState } from '@react-three/fiber'
 import { MeshTransmissionMaterial, Environment } from '@react-three/drei'
 import * as THREE from 'three'
 
@@ -13,58 +13,33 @@ interface ShardProps {
 }
 
 const shardShapes = [
-  [
-    [0, 0],
-    [0.5, 0.2],
-    [0.7, 0.7],
-    [0.2, 0.5],
-  ],
-  [
-    [0, 0],
-    [0.8, 0.1],
-    [0.6, 0.6],
-    [0.1, 0.4],
-  ],
-  [
-    [0, 0],
-    [0.6, 0.3],
-    [0.4, 0.7],
-    [0.1, 0.5],
-  ],
-  [
-    [0, 0],
-    [0.7, 0.2],
-    [0.5, 0.8],
-    [0.1, 0.6],
-  ],
-  [
-    [0, 0],
-    [0.9, 0.1],
-    [0.7, 0.5],
-    [0.3, 0.7],
-    [0.1, 0.3],
-  ],
+  [[0, 0], [0.5, 0.2], [0.7, 0.7], [0.2, 0.5]],
+  [[0, 0], [0.8, 0.1], [0.6, 0.6], [0.1, 0.4]],
+  [[0, 0], [0.6, 0.3], [0.4, 0.7], [0.1, 0.5]],
+  [[0, 0], [0.7, 0.2], [0.5, 0.8], [0.1, 0.6]],
+  [[0, 0], [0.9, 0.1], [0.7, 0.5], [0.3, 0.7], [0.1, 0.3]],
 ]
 
-function createRandomShape(): THREE.Shape {
+const createRandomShape = (() => {
   const shape = new THREE.Shape()
-  const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
-  const scale = 2 + Math.random() * 5.5 // Scale range: 0.5 to 2
-
-  shardPoints.forEach((point, index) => {
-    const [x, y] = point
-    const scaledX = x * scale
-    const scaledY = y * scale
-    if (index === 0) {
-      shape.moveTo(scaledX, scaledY)
-    } else {
-      shape.lineTo(scaledX, scaledY)
-    }
-  })
-
-  shape.closePath()
-  return shape
-}
+  return () => {
+    const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
+    const scale = 2 + Math.random() * 5.5
+    shape.curves = []
+    shardPoints.forEach((point, index) => {
+      const [x, y] = point
+      const scaledX = x * scale
+      const scaledY = y * scale
+      if (index === 0) {
+        shape.moveTo(scaledX, scaledY)
+      } else {
+        shape.lineTo(scaledX, scaledY)
+      }
+    })
+    shape.closePath()
+    return shape
+  }
+})()
 
 function Shard({ position, rotation, scale, shape }: ShardProps) {
   const mesh = useRef<THREE.Mesh>(null)
@@ -110,7 +85,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         temporalDistortion={0.02}
         attenuationDistance={2}
         attenuationColor="#ffffff"
-        color="#9333ea" //pink- 100
+        color="#9333ea"
         reflectivity={0.9}
         roughness={0.2}
         clearcoat={0.1}
@@ -121,10 +96,10 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
   )
 }
 
-function Shards() {
+const Shards = React.memo(() => {
   const shards = useMemo(() => {
-    return Array.from({ length: 7 }, (_, i) => {
-      const size = Math.random() * 1 + 1.5 // Size range: 0.5 to 2.5
+    return Array.from({ length: 7 }, () => {
+      const size = Math.random() * 1 + 1.5
       return {
         position: [
           (Math.random() - 0.5) * 30,
@@ -145,25 +120,27 @@ function Shards() {
       ))}
     </>
   )
-}
+})
 
-function Lighting() {
-
-
-  return (
-    <>
-      <ambientLight intensity={0.2} />
-    </>
-  )
-}
+const Lighting = React.memo(() => (
+  <ambientLight intensity={0.2} />
+))
 
 export default function GlassShards() {
+  const updateCamera = useCallback((state: RootState) => {
+    if (state.camera instanceof THREE.PerspectiveCamera) {
+      state.camera.position.set(0, 0, 20)
+      state.camera.fov = 50
+      state.camera.updateProjectionMatrix()
+    }
+  }, [])
+
   return (
     <div className="w-full h-screen">
-      <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
+      <Canvas onCreated={updateCamera}>
         <Lighting />
         <Shards />
-        <Environment preset="sunset" blur={0.2} backgroundBlurriness={1}/>
+        <Environment preset="sunset" blur={0.2} backgroundBlurriness={1} />
       </Canvas>
     </div>
   )
