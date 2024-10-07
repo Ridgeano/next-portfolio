@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion"
+import { useState} from "react"
+import { motion, AnimatePresence} from "framer-motion"
 import { Preloader } from "@/components/Preloader"
 
 import Hero from "@/components/Hero"
@@ -15,21 +15,9 @@ import AboutMe from "@/components/AboutMe"
 
 export default function Component() {
   const [isLoading, setIsLoading] = useState(true)
-  const [isScrolledPast70, setIsScrolledPast70] = useState(false)
-  const contentRef = useRef(null)
-
   const handleLoadingComplete = () => {
     setTimeout(() => setIsLoading(false), 500) 
   }
-
-  const { scrollYProgress } = useScroll({
-    target: contentRef,
-    offset: ["start start", "end end"]
-  });
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setIsScrolledPast70(latest > 0.5)
-  })
 
   return (
     <div className="min-h-screen bg-zinc-100">
@@ -47,8 +35,8 @@ export default function Component() {
     <CursorFollower/>
     <Nav/>
     <Hero/>
-    <ScrollingBanner phrase={"Recent Work"}/>
     <FeaturedWork/>
+    <ScrollingBanner phrase={"What you can expect from me"}/>
     <AboutMe/>
     <Contact/>
     </motion.main>

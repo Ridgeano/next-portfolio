@@ -1,5 +1,3 @@
-"use client"
-
 import { ArrowUpRight } from 'lucide-react'
 import { motion, useInView } from 'framer-motion'
 import { Montserrat } from 'next/font/google'
@@ -25,7 +23,6 @@ export default function AboutMe() {
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        What you can expect from me:
       </motion.h2>
       <motion.h1 
         className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold mb-8 sm:mb-10 lg:mb-12 leading-tight"

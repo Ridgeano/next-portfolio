@@ -1,11 +1,8 @@
-
 import GlassShards from "./ui/glassShards";
 
 export default function Hero() {
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {/*<StainedGlassParticles />*/}
-      {/*<MetallicParticles />*/}
       <GlassShards/>
       <main className="absolute inset-0 flex flex-col items-center justify-center">
         <div className="container mx-auto px-4">
