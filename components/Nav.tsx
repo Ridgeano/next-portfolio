@@ -15,7 +15,11 @@ const socialItems = [
   { title: "Twitter", href: "https://twitter.com" }
 ]
 
-export default function Nav() {
+interface NavProps {
+  isHeroVisible: boolean
+}
+
+export default function Nav({ isHeroVisible }: NavProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(true)
 
@@ -44,8 +48,20 @@ export default function Nav() {
   return (
     <>
       <div className="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-4 mt-4 z-[40]">
-        <div className={`text-2xl font-bold ${isOpen && isMobile ? 'invisible' : 'visible'}`}>
-          Sean Ridgeon
+        <div className="flex-1">
+          <AnimatePresence>
+            {isHeroVisible && (
+              <motion.div
+                className="text-2xl font-bold"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                Sean Ridgeon
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
         <button
           className="w-12 h-12 flex flex-col justify-center items-center focus:outline-none rounded-lg"
