@@ -52,7 +52,7 @@ export default function ScrollingBanner({ phrase, speed = 50 }: ScrollingBannerP
         }}
       >
         {Array.from({ length: loopNum }).map((_, index) => (
-          <span key={index} className="mr-8 text-4xl font-bold text-gray-100 lowercase">
+          <span key={index} className="mr-8 text-4xl font-bold text-zinc-100 lowercase">
             {phrase} <span>·</span>
           </span>
         ))}
