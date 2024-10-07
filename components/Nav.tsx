@@ -61,7 +61,7 @@ export default function Nav() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className={`fixed bg-pink-500 flex flex-col rounded-lg z-[30] ${
+            className={`fixed bg-violet-500 flex flex-col rounded-lg z-[30] ${
               isMobile
                 ? 'inset-2'
                 : 'top-2 right-2 w-80 h-auto max-h-[calc(100vh-1rem)]'

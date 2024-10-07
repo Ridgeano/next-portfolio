@@ -7,6 +7,9 @@ import { Preloader } from "@/components/Preloader"
 import Hero from "@/components/Hero"
 import Nav from "@/components/Nav"
 import CursorFollower from "@/components/ui/cursorFollow"
+import TextParallax from "@/components/scrollingBanner"
+import ScrollingBanner from "@/components/scrollingBanner"
+import FeaturedWork from "@/components/FeaturedWork"
 
 
 export default function Component() {
@@ -43,6 +46,8 @@ export default function Component() {
     <CursorFollower/>
     <Nav/>
     <Hero/>
+    <ScrollingBanner phrase={"Recent Work"}/>
+    <FeaturedWork/>
     </motion.main>
     </div>
   )

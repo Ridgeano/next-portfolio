@@ -111,8 +111,8 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         temporalDistortion={0.02}
         attenuationDistance={2}
         attenuationColor="#ffffff"
-        color="#f5d0fe" //pink- 100
-        reflectivity={0.1}
+        color="#9333ea" //pink- 100
+        reflectivity={0.9}
         roughness={0.2}
         clearcoat={0.1}
         clearcoatRoughness={0.1}
@@ -149,20 +149,11 @@ function Shards() {
 }
 
 function Lighting() {
-  const spotLight = useRef<THREE.SpotLight>(null)
 
 
   return (
     <>
       <ambientLight intensity={0.2} />
-      <spotLight
-        ref={spotLight}
-        position={[10, 10, 10]}
-        angle={0.45}
-        penumbra={1}
-        intensity={0.}
-        castShadow
-      />
     </>
   )
 }

@@ -1,5 +1,4 @@
-import StainedGlassParticles from "./StainedGlassParticles";
-import { MetallicParticles } from "./metallicParticles";
+
 import GlassShards from "./ui/glassShards";
 
 export default function Hero() {
