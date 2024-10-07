@@ -111,8 +111,8 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
                 <motion.path
                   key={index}
                   d={path}
-                  stroke="#8b5cf6"
-                  strokeWidth="0.5"
+                  stroke="#fafafa"
+                  strokeWidth="0.2"
                   fill="none"
                   variants={{
                     hidden: { pathLength: 0, opacity: 0 },
