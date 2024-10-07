@@ -2,85 +2,138 @@
 
 import React, { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import { OrbitControls, MeshTransmissionMaterial, Environment, useHelper } from '@react-three/drei'
+import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import * as THREE from 'three'
-
-// Custom shader for glass-like material
-const glassShaderMaterial = {
-  uniforms: {
-    time: { value: 0 },
-  },
-  vertexShader: `
-    varying vec3 vNormal;
-    varying vec3 vViewPosition;
-    
-    void main() {
-      vNormal = normalize(normalMatrix * normal);
-      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-      vViewPosition = -mvPosition.xyz;
-      gl_Position = projectionMatrix * mvPosition;
-    }
-  `,
-  fragmentShader: `
-    uniform float time;
-    varying vec3 vNormal;
-    varying vec3 vViewPosition;
-    
-    void main() {
-      vec3 normal = normalize(vNormal);
-      vec3 viewDir = normalize(vViewPosition);
-      float fresnel = pow(1.0 + dot(viewDir, normal), 3.0);
-      vec3 color = vec3(0.8, 0.9, 1.0);
-      gl_FragColor = vec4(color * fresnel, 0.5);
-    }
-  `,
-}
 
 interface ShardProps {
   position: [number, number, number]
   rotation: [number, number, number]
   scale: [number, number, number]
+  shape: THREE.Shape
 }
 
-function Shard({ position, rotation, scale }: ShardProps) {
-  const mesh = useRef<THREE.Mesh>(null)
-  const material = useRef<THREE.ShaderMaterial>(null)
-  const fallSpeed = useRef(0.005 + Math.random() * 0.01) // Varying fall speed
+const shardShapes = [
+  [
+    [0, 0],
+    [0.5, 0.2],
+    [0.7, 0.7],
+    [0.2, 0.5],
+  ],
+  [
+    [0, 0],
+    [0.8, 0.1],
+    [0.6, 0.6],
+    [0.1, 0.4],
+  ],
+  [
+    [0, 0],
+    [0.6, 0.3],
+    [0.4, 0.7],
+    [0.1, 0.5],
+  ],
+  [
+    [0, 0],
+    [0.7, 0.2],
+    [0.5, 0.8],
+    [0.1, 0.6],
+  ],
+  [
+    [0, 0],
+    [0.9, 0.1],
+    [0.7, 0.5],
+    [0.3, 0.7],
+    [0.1, 0.3],
+  ],
+]
 
-  useFrame((state) => {
+function createRandomShape(): THREE.Shape {
+  const shape = new THREE.Shape()
+  const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
+  const scale = 0.5 + Math.random() * 1.5 // Scale range: 0.5 to 2
+
+  shardPoints.forEach((point, index) => {
+    const [x, y] = point
+    const scaledX = x * scale
+    const scaledY = y * scale
+    if (index === 0) {
+      shape.moveTo(scaledX, scaledY)
+    } else {
+      shape.lineTo(scaledX, scaledY)
+    }
+  })
+
+  shape.closePath()
+  return shape
+}
+
+function Shard({ position, rotation, scale, shape }: ShardProps) {
+  const mesh = useRef<THREE.Mesh>(null)
+  const fallSpeed = useRef(0.005 + Math.random() * 0.01)
+  const rotationSpeed = useRef({
+    x: (Math.random() - 0.5) * 0.01,
+    y: (Math.random() - 0.5) * 0.01,
+    z: (Math.random() - 0.5) * 0.01,
+  })
+
+  useFrame(() => {
     if (mesh.current) {
       mesh.current.position.y -= fallSpeed.current
       if (mesh.current.position.y < -10) {
         mesh.current.position.y = 10
       }
-      mesh.current.rotation.x += 0.005
-      mesh.current.rotation.y += 0.005
-    }
-    if (material.current) {
-      material.current.uniforms.time.value = state.clock.getElapsedTime()
+      mesh.current.rotation.x += rotationSpeed.current.x
+      mesh.current.rotation.y += rotationSpeed.current.y
+      mesh.current.rotation.z += rotationSpeed.current.z
     }
   })
 
+  const geometry = useMemo(() => {
+    const extrudeSettings = {
+      steps: 1,
+      depth: 0.1,
+      bevelEnabled: false,
+    }
+    return new THREE.ExtrudeGeometry(shape, extrudeSettings)
+  }, [shape])
+
   return (
-    <mesh ref={mesh} position={position} rotation={rotation} scale={scale}>
-      <boxGeometry args={[1, 1, 0.05]} /> {/* Thinner depth for more shard-like appearance */}
-      <shaderMaterial ref={material} attach="material" args={[glassShaderMaterial]} transparent />
+    <mesh ref={mesh} position={position} rotation={rotation} scale={scale} geometry={geometry}>
+      <MeshTransmissionMaterial
+        backside
+        backsideThickness={0.2}
+        thickness={0.1}
+        chromaticAberration={0.05}
+        transmission={0.95}
+        ior={1.5}
+        distortion={0.1}
+        distortionScale={0.1}
+        temporalDistortion={0.02}
+        attenuationDistance={2}
+        attenuationColor="#ffffff"
+        color="#f0f8ff"
+        reflectivity={0.1}
+        roughness={0.2}
+        clearcoat={0.1}
+        clearcoatRoughness={0.1}
+      />
     </mesh>
   )
 }
 
 function Shards() {
   const shards = useMemo(() => {
-    return Array.from({ length: 10 }, (_, i) => {
-      const size = Math.random() * 1.5 + 0.5 // Sizes between 0.5 and 2
+    return Array.from({ length: 20 }, (_, i) => {
+      const size = Math.random() * 2 + 0.5 // Size range: 0.5 to 2.5
       return {
         position: [
-          (Math.random() - 0.5) * 35, // Spread more horizontally
-          Math.random() * 20,     // Start higher up
-          (Math.random() - 0.5) * 30  // Spread more in depth
+          (Math.random() - 0.5) * 30,
+          Math.random() * 30,
+          (Math.random() - 0.5) * 25
         ] as [number, number, number],
         rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
-        scale: [size, size, size] as [number, number, number], // Uniform scaling for each shard
+        scale: [size, size, size] as [number, number, number],
+        shape: createRandomShape(),
       }
     })
   }, [])
@@ -94,14 +147,37 @@ function Shards() {
   )
 }
 
+function Lighting() {
+  const spotLight = useRef<THREE.SpotLight>(null)
+
+
+  return (
+    <>
+      <ambientLight intensity={0.2} />
+      <spotLight
+        ref={spotLight}
+        position={[10, 10, 10]}
+        angle={0.15}
+        penumbra={1}
+        intensity={0.5}
+        castShadow
+      />
+    </>
+  )
+}
+
 export default function GlassShards() {
   return (
     <div className="w-full h-screen">
-      <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
+      <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
+        <color attach="background" args={["#f0f0f0"]} />
+        <Lighting />
         <Shards />
+        <Environment preset="city"/>
         <OrbitControls enableZoom={false} />
+        <EffectComposer>
+          <Bloom luminanceThreshold={0.8} intensity={0.5} levels={3} mipmapBlur />
+        </EffectComposer>
       </Canvas>
     </div>
   )
