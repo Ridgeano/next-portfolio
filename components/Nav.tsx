@@ -43,7 +43,7 @@ export default function Nav() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-4 mt-4 z-[70]">
+      <div className="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-4 mt-4 z-[40]">
         <div className={`text-2xl font-bold ${isOpen && isMobile ? 'invisible' : 'visible'}`}>
           Sean Ridgeon
         </div>
@@ -61,7 +61,7 @@ export default function Nav() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className={`fixed bg-pink-500 flex flex-col rounded-lg z-[60] ${
+            className={`fixed bg-pink-500 flex flex-col rounded-lg z-[30] ${
               isMobile
                 ? 'inset-2'
                 : 'top-2 right-2 w-80 h-auto max-h-[calc(100vh-1rem)]'
