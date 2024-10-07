@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface PreloaderProps {
@@ -17,6 +17,43 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
   const [isComplete, setIsComplete] = useState(false)
   const [isCracking, setIsCracking] = useState(false)
   const [shouldHidePercentage, setShouldHidePercentage] = useState(false)
+
+  const generateCrackPattern = () => {
+    const points: Point[] = []
+    const numPoints = 25
+    const width = 100
+    const height = 100
+    const margin = 5
+
+    for (let i = 0; i < numPoints; i++) {
+      points.push({
+        x: margin + Math.random() * (width - 2 * margin),
+        y: margin + Math.random() * (height - 2 * margin)
+      })
+    }
+
+    const cracks: string[] = []
+    points.forEach((point) => {
+      const closestPoints = findClosestPoints(point, points, 3)
+      closestPoints.forEach(closePoint => {
+        cracks.push(`M${point.x},${point.y} L${closePoint.x},${closePoint.y}`)
+      })
+    })
+
+    return cracks
+  }
+
+  const findClosestPoints = (point: Point, points: Point[], num: number) => {
+    return points
+      .filter(p => p !== point)
+      .sort((a, b) => 
+        Math.hypot(a.x - point.x, a.y - point.y) - Math.hypot(b.x - point.x, b.y - point.y)
+      )
+      .slice(0, num)
+  }
+
+  // Generate crack pattern once and memoize it
+  const crackPaths = useMemo(() => generateCrackPattern(), [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -58,42 +95,6 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
       return () => clearTimeout(completeTimeout)
     }
   }, [isComplete, onLoadingComplete])
-
-  const generateCrackPattern = () => {
-    const points: Point[] = []
-    const numPoints = 25
-    const width = 100
-    const height = 100
-    const margin = 5
-
-    for (let i = 0; i < numPoints; i++) {
-      points.push({
-        x: margin + Math.random() * (width - 2 * margin),
-        y: margin + Math.random() * (height - 2 * margin)
-      })
-    }
-
-    const cracks: string[] = []
-    points.forEach((point) => {
-      const closestPoints = findClosestPoints(point, points, 3)
-      closestPoints.forEach(closePoint => {
-        cracks.push(`M${point.x},${point.y} L${closePoint.x},${closePoint.y}`)
-      })
-    })
-
-    return cracks
-  }
-
-  const findClosestPoints = (point: Point, points: Point[], num: number) => {
-    return points
-      .filter(p => p !== point)
-      .sort((a, b) => 
-        Math.hypot(a.x - point.x, a.y - point.y) - Math.hypot(b.x - point.x, b.y - point.y)
-      )
-      .slice(0, num)
-  }
-
-  const crackPaths = generateCrackPattern()
 
   return (
     <AnimatePresence>
@@ -141,7 +142,7 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
                   viewBox="0 0 256 256"
                   initial={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  transition={{ duration: 0.5 }}
                 >
                   <circle
                     cx="128"
