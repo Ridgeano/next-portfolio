@@ -10,6 +10,7 @@ import CursorFollower from "@/components/ui/cursorFollow"
 import TextParallax from "@/components/scrollingBanner"
 import ScrollingBanner from "@/components/scrollingBanner"
 import FeaturedWork from "@/components/FeaturedWork"
+import Contact from "@/components/Contact"
 
 
 export default function Component() {
@@ -48,6 +49,7 @@ export default function Component() {
     <Hero/>
     <ScrollingBanner phrase={"Recent Work"}/>
     <FeaturedWork/>
+    <Contact/>
     </motion.main>
     </div>
   )
