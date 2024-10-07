@@ -111,7 +111,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         temporalDistortion={0.02}
         attenuationDistance={2}
         attenuationColor="#ffffff"
-        color="#f0f8ff"
+        color="#f9a8d4" //pink- 300
         reflectivity={0.1}
         roughness={0.2}
         clearcoat={0.1}
