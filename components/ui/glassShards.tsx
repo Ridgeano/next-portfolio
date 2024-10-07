@@ -116,8 +116,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         roughness={0.2}
         clearcoat={0.1}
         clearcoatRoughness={0.1}
-        resolution={1920}
-        samples={4}
+        resolution={720}
       />
     </mesh>
   )
@@ -161,7 +160,7 @@ function Lighting() {
         position={[10, 10, 10]}
         angle={0.45}
         penumbra={1}
-        intensity={0.5}
+        intensity={0.}
         castShadow
       />
     </>
@@ -175,7 +174,6 @@ export default function GlassShards() {
         <Lighting />
         <Shards />
         <Environment preset="city"/>
-        <OrbitControls enableZoom={false} />
         <EffectComposer>
           <Bloom luminanceThreshold={0.8} intensity={0.15} levels={3} mipmapBlur />
         </EffectComposer>
