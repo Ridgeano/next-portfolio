@@ -34,16 +34,51 @@ const projects: Project[] = [
 export default function FeaturedWork() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [isMounted, setIsMounted] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const projectRefs = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     setIsMounted(true)
-    return () => setIsMounted(false)
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => {
+      setIsMounted(false)
+      window.removeEventListener('resize', checkMobile)
+    }
   }, [])
 
   useEffect(() => {
     projectRefs.current = projectRefs.current.slice(0, projects.length)
   }, [projects])
+
+  useEffect(() => {
+    if (isMobile && isMounted) {
+      const observers = projectRefs.current.map((ref, index) => {
+        if (ref) {
+          const observer = new IntersectionObserver(
+            ([entry]) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  setHoveredIndex(index)
+                }, 300) // 300ms delay
+              } else {
+                setHoveredIndex(null)
+              }
+            },
+            { threshold: 0.7 } // Increased threshold to 70%
+          )
+          observer.observe(ref)
+          return observer
+        }
+        return null
+      })
+
+      return () => {
+        observers.forEach((observer) => observer && observer.disconnect())
+      }
+    }
+  }, [isMobile, isMounted])
 
   if (!isMounted) {
     return null
@@ -52,8 +87,7 @@ export default function FeaturedWork() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-8xl mx-auto">
-        <h2 className="text-3xl font-bold mb-12 pl-4 border-l-4
-         border-violet-500 w-fit lowercase">Recent Projects</h2>
+        <h2 className="text-3xl font-bold mb-12 pl-4 border-l-4 border-violet-500 w-fit lowercase">Recent Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence>
             {projects.map((project, index) => (
@@ -63,8 +97,8 @@ export default function FeaturedWork() {
                   if (el) projectRefs.current[index] = el;
                 }}
                 className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
-                onHoverStart={() => setHoveredIndex(index)}
-                onHoverEnd={() => setHoveredIndex(null)}
+                onHoverStart={() => !isMobile && setHoveredIndex(index)}
+                onHoverEnd={() => !isMobile && setHoveredIndex(null)}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
