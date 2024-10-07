@@ -52,7 +52,7 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
       .slice(0, num)
   }
 
-  // Generate crack pattern once and memoize it
+  // Generate crack pattern once and saves it
   const crackPaths = useMemo(() => generateCrackPattern(), [])
 
   useEffect(() => {
@@ -106,6 +106,13 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
           transition={{ duration: 1 }}
         >
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="crackGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#2563eb" />{/*Blue 600*/}
+                <stop offset="50%" stopColor="#7c3aed" /> {/*Violet 600*/}
+                <stop offset="100%" stopColor="#c026d3" />{/*Fuchsia 600*/}
+              </linearGradient>
+            </defs>
             <motion.g
               initial="hidden"
               animate={isCracking ? "visible" : "hidden"}
@@ -121,7 +128,7 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
                 <motion.path
                   key={index}
                   d={path}
-                  stroke="#fafafa"
+                  stroke="url(#crackGradient)"
                   strokeWidth="0.2"
                   fill="none"
                   variants={{
