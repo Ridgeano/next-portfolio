@@ -12,16 +12,15 @@ interface ShardProps {
   shape: THREE.Shape
 }
 
-const shardShapes = [
-  [[0, 0], [0.5, 0.2], [0.7, 0.7], [0.2, 0.5]],
-  [[0, 0], [0.8, 0.1], [0.6, 0.6], [0.1, 0.4]],
-  [[0, 0], [0.6, 0.3], [0.4, 0.7], [0.1, 0.5]],
-  [[0, 0], [0.7, 0.2], [0.5, 0.8], [0.1, 0.6]],
-  [[0, 0], [0.9, 0.1], [0.7, 0.5], [0.3, 0.7], [0.1, 0.3]],
-]
+const shardShapes = [ [ [0, 0], [0.5, 0.2], 
+[0.7, 0.7], [0.2, 0.5], ], [ [0, 0], [0.8, 0.1], 
+[0.6, 0.6], [0.1, 0.4], ], [ [0, 0], [0.6, 0.3], 
+[0.4, 0.7], [0.1, 0.5], ], [ [0, 0], [0.7, 0.2], 
+[0.5, 0.8], [0.1, 0.6], ], [ [0, 0], [0.9, 0.1], 
+[0.7, 0.5], [0.3, 0.7], [0.1, 0.3], ], ]
 
+const shape = new THREE.Shape()
 const createRandomShape = (() => {
-  const shape = new THREE.Shape()
   return () => {
     const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
     const scale = 2 + Math.random() * 5.5
@@ -40,6 +39,12 @@ const createRandomShape = (() => {
     return shape
   }
 })()
+
+const extrudeSettings = {
+  steps: 1,
+  depth: 0.15,
+  bevelEnabled: false,
+}
 
 function Shard({ position, rotation, scale, shape }: ShardProps) {
   const mesh = useRef<THREE.Mesh>(null)
@@ -62,14 +67,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
     }
   })
 
-  const geometry = useMemo(() => {
-    const extrudeSettings = {
-      steps: 1,
-      depth: 0.15,
-      bevelEnabled: false,
-    }
-    return new THREE.ExtrudeGeometry(shape, extrudeSettings)
-  }, [shape])
+  const geometry = useMemo(() => new THREE.ExtrudeGeometry(shape, extrudeSettings), [shape])
 
   return (
     <mesh ref={mesh} position={position} rotation={rotation} scale={scale} geometry={geometry}>
@@ -126,11 +124,16 @@ const Lighting = React.memo(() => (
   <ambientLight intensity={0.2} />
 ))
 
+const cameraSettings = {
+  position: [0, 0, 20] as [number, number, number],
+  fov: 50,
+}
+
 export default function GlassShards() {
   const updateCamera = useCallback((state: RootState) => {
     if (state.camera instanceof THREE.PerspectiveCamera) {
-      state.camera.position.set(0, 0, 20)
-      state.camera.fov = 50
+      state.camera.position.set(cameraSettings.position[0], cameraSettings.position[1], cameraSettings.position[2])
+      state.camera.fov = cameraSettings.fov
       state.camera.updateProjectionMatrix()
     }
   }, [])
