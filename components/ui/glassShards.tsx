@@ -50,7 +50,7 @@ const shardShapes = [
 function createRandomShape(): THREE.Shape {
   const shape = new THREE.Shape()
   const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
-  const scale = 0.5 + Math.random() * 1.5 // Scale range: 0.5 to 2
+  const scale = 2 + Math.random() * 5.5 // Scale range: 0.5 to 2
 
   shardPoints.forEach((point, index) => {
     const [x, y] = point
@@ -91,7 +91,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
   const geometry = useMemo(() => {
     const extrudeSettings = {
       steps: 1,
-      depth: 0.1,
+      depth: 0.15,
       bevelEnabled: false,
     }
     return new THREE.ExtrudeGeometry(shape, extrudeSettings)
@@ -116,6 +116,8 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         roughness={0.2}
         clearcoat={0.1}
         clearcoatRoughness={0.1}
+        resolution={1920}
+        samples={4}
       />
     </mesh>
   )
@@ -123,8 +125,8 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
 
 function Shards() {
   const shards = useMemo(() => {
-    return Array.from({ length: 20 }, (_, i) => {
-      const size = Math.random() * 2 + 0.5 // Size range: 0.5 to 2.5
+    return Array.from({ length: 10 }, (_, i) => {
+      const size = Math.random() * 1 + 1.5 // Size range: 0.5 to 2.5
       return {
         position: [
           (Math.random() - 0.5) * 30,
@@ -157,7 +159,7 @@ function Lighting() {
       <spotLight
         ref={spotLight}
         position={[10, 10, 10]}
-        angle={0.15}
+        angle={0.45}
         penumbra={1}
         intensity={0.5}
         castShadow
@@ -170,13 +172,12 @@ export default function GlassShards() {
   return (
     <div className="w-full h-screen">
       <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
-        <color attach="background" args={["#f0f0f0"]} />
         <Lighting />
         <Shards />
         <Environment preset="city"/>
         <OrbitControls enableZoom={false} />
         <EffectComposer>
-          <Bloom luminanceThreshold={0.8} intensity={0.5} levels={3} mipmapBlur />
+          <Bloom luminanceThreshold={0.8} intensity={0.15} levels={3} mipmapBlur />
         </EffectComposer>
       </Canvas>
     </div>
