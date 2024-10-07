@@ -143,38 +143,6 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
           
           <div className="relative w-80 h-80 flex items-center justify-center">
             <AnimatePresence>
-              {progress < 100 && (
-                <motion.svg
-                  className="w-full h-full absolute"
-                  viewBox="0 0 256 256"
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <circle
-                    cx="128"
-                    cy="128"
-                    r="120"
-                    fill="none"
-                    stroke="#3f3f46"
-                    strokeWidth="8"
-                  />
-                  <motion.circle
-                    cx="128"
-                    cy="128"
-                    r="120"
-                    fill="none"
-                    stroke="#8b5cf6"
-                    strokeWidth="8"
-                    strokeLinecap="round"
-                    initial={{ strokeDasharray: 2 * Math.PI * 120, strokeDashoffset: 2 * Math.PI * 120 }}
-                    animate={{ strokeDashoffset: 2 * Math.PI * 120 * (1 - progress / 100) }}
-                    transition={{ duration: 0.1, ease: "linear" }}
-                  />
-                </motion.svg>
-              )}
-            </AnimatePresence>
-            <AnimatePresence>
               {!shouldHidePercentage && (
                 <motion.div
                   className="absolute inset-0 flex items-center justify-center text-white text-9xl font-bold"
