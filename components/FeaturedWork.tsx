@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Image, { StaticImageData } from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import gazetteer from '../public/gazetteer.png'
+import nextjs_port from '../public/nextjs-port.png'
 
 interface Project {
   title: string
@@ -25,8 +26,8 @@ const projects: Project[] = [
   },
   {
     title: "portfolio",
-    subtitle: "Website",
-    image: gazetteer
+    subtitle: "next.js",
+    image: nextjs_port
   },
 ]
 
