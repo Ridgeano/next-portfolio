@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -14,6 +16,7 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
   const [isCracking, setIsCracking] = useState(false)
+  const [shouldHidePercentage, setShouldHidePercentage] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -32,10 +35,18 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
 
   useEffect(() => {
     if (isCracking) {
+      const hidePercentageTimeout = setTimeout(() => {
+        setShouldHidePercentage(true)
+      }, 1800) // Hide percentage 200ms before completion
+
       const crackTimeout = setTimeout(() => {
         setIsComplete(true)
       }, 2000)
-      return () => clearTimeout(crackTimeout)
+
+      return () => {
+        clearTimeout(hidePercentageTimeout)
+        clearTimeout(crackTimeout)
+      }
     }
   }, [isCracking])
 
@@ -53,9 +64,8 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
     const numPoints = 25
     const width = 100
     const height = 100
-    const margin = 5 // Add a margin to keep cracks away from the edge
+    const margin = 5
 
-    // Generate random points
     for (let i = 0; i < numPoints; i++) {
       points.push({
         x: margin + Math.random() * (width - 2 * margin),
@@ -63,9 +73,8 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
       })
     }
 
-    // Generate cracks
     const cracks: string[] = []
-    points.forEach((point, i) => {
+    points.forEach((point) => {
       const closestPoints = findClosestPoints(point, points, 3)
       closestPoints.forEach(closePoint => {
         cracks.push(`M${point.x},${point.y} L${closePoint.x},${closePoint.y}`)
@@ -125,37 +134,50 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
           </svg>
           
           <div className="relative w-80 h-80 flex items-center justify-center">
-            {!isCracking && (
-              <svg className="w-full h-full" viewBox="0 0 256 256">
-                <circle
-                  cx="128"
-                  cy="128"
-                  r="120"
-                  fill="none"
-                  stroke="#3f3f46"
-                  strokeWidth="8"
-                />
-                <motion.circle
-                  cx="128"
-                  cy="128"
-                  r="120"
-                  fill="none"
-                  stroke="#8b5cf6"
-                  strokeWidth="8"
-                  strokeLinecap="round"
-                  initial={{ strokeDasharray: 2 * Math.PI * 120, strokeDashoffset: 2 * Math.PI * 120 }}
-                  animate={{ strokeDashoffset: 2 * Math.PI * 120 * (1 - progress / 100) }}
-                  transition={{ duration: 0.1, ease: "linear" }}
-                />
-              </svg>
-            )}
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center text-white text-9xl font-bold"
-              animate={isCracking ? { scale: 0, opacity: 0 } : { scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              {progress}%
-            </motion.div>
+            <AnimatePresence>
+              {progress < 100 && (
+                <motion.svg
+                  className="w-full h-full absolute"
+                  viewBox="0 0 256 256"
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                >
+                  <circle
+                    cx="128"
+                    cy="128"
+                    r="120"
+                    fill="none"
+                    stroke="#3f3f46"
+                    strokeWidth="8"
+                  />
+                  <motion.circle
+                    cx="128"
+                    cy="128"
+                    r="120"
+                    fill="none"
+                    stroke="#8b5cf6"
+                    strokeWidth="8"
+                    strokeLinecap="round"
+                    initial={{ strokeDasharray: 2 * Math.PI * 120, strokeDashoffset: 2 * Math.PI * 120 }}
+                    animate={{ strokeDashoffset: 2 * Math.PI * 120 * (1 - progress / 100) }}
+                    transition={{ duration: 0.1, ease: "linear" }}
+                  />
+                </motion.svg>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {!shouldHidePercentage && (
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center text-white text-9xl font-bold"
+                  initial={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 1.5, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {progress}%
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.div>
       )}
