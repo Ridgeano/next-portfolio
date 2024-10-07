@@ -111,7 +111,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         temporalDistortion={0.02}
         attenuationDistance={2}
         attenuationColor="#ffffff"
-        color="#fce7f3" //pink- 100
+        color="#f5d0fe" //pink- 100
         reflectivity={0.1}
         roughness={0.2}
         clearcoat={0.1}
@@ -124,7 +124,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
 
 function Shards() {
   const shards = useMemo(() => {
-    return Array.from({ length: 10 }, (_, i) => {
+    return Array.from({ length: 7 }, (_, i) => {
       const size = Math.random() * 1 + 1.5 // Size range: 0.5 to 2.5
       return {
         position: [
@@ -173,10 +173,7 @@ export default function GlassShards() {
       <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
         <Lighting />
         <Shards />
-        <Environment preset="city"/>
-        <EffectComposer>
-          <Bloom luminanceThreshold={0.8} intensity={0.15} levels={3} mipmapBlur />
-        </EffectComposer>
+        <Environment preset="sunset" blur={0.2} backgroundBlurriness={1}/>
       </Canvas>
     </div>
   )
