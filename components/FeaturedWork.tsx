@@ -2,29 +2,30 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
+import gazetteer from '../public/gazetteer.png'
 
 interface Project {
   title: string
   subtitle: string
-  image: string
+  image: StaticImageData
 }
 
 const projects: Project[] = [
   {
     title: "gazetteer",
     subtitle: "Web App",
-    image: "/placeholder.svg?height=400&width=600"
+    image: gazetteer
   },
   {
     title: "company directory",
     subtitle: "Web App",
-    image: "/placeholder.svg?height=400&width=600"
+    image: gazetteer
   },
   {
     title: "portfolio",
     subtitle: "Website",
-    image: "/placeholder.svg?height=400&width=600"
+    image: gazetteer
   },
 ]
 

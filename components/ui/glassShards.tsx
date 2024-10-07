@@ -2,8 +2,7 @@
 
 import React, { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, MeshTransmissionMaterial, Environment, useHelper } from '@react-three/drei'
-import { EffectComposer, Bloom } from '@react-three/postprocessing'
+import { MeshTransmissionMaterial, Environment } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface ShardProps {
