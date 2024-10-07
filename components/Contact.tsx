@@ -2,12 +2,17 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Montserrat } from 'next/font/google'
+
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
 export default function Contact() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
 
+
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Form submitted:', { name, email, message })
@@ -51,7 +56,7 @@ export default function Contact() {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none"
+                  className={`${montserrat.className} w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none`}
                   required
                 />
               </div>
@@ -62,7 +67,7 @@ export default function Contact() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none"
+                  className={`${montserrat.className} w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none`}
                   required
                 />
               </div>
@@ -73,7 +78,7 @@ export default function Contact() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={4}
-                  className="w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none resize-none"
+                  className={`${montserrat.className} w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none resize-none`}
                   required
                 ></textarea>
               </div>
