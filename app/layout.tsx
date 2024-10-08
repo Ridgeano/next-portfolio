@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Major_Mono_Display } from 'next/font/google'
 import { SmoothScroll } from '@/components/SmoothScroll'
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const majorMonoDisplay = Major_Mono_Display({
   subsets: ["latin"],
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${majorMonoDisplay.variable} font-major-mono antialiased`}>
         <SmoothScroll>{children}</SmoothScroll>
+        <SpeedInsights />
       </body>
     </html>
   )
