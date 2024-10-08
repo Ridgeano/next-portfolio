@@ -6,6 +6,7 @@ import Image, { StaticImageData } from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
 import gazetteer from '../public/gazetteer.png'
 import nextjs_port from '../public/nextjs-port.png'
+import company_dirt from '../public/companyDirectory.png'
 
 interface Project {
   title: string
@@ -22,7 +23,7 @@ const projects: Project[] = [
   {
     title: "company directory",
     subtitle: "Web App",
-    image: gazetteer
+    image: company_dirt
   },
   {
     title: "portfolio",
