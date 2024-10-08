@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useMemo, useCallback, useState, useEffect, useTransition } from 'react'
+import React, { useRef, useMemo, useState, useEffect, useTransition } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { MeshTransmissionMaterial, Environment, useDetectGPU, Text } from '@react-three/drei'
 import * as THREE from 'three'
