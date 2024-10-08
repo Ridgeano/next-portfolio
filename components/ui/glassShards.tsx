@@ -21,26 +21,24 @@ const shardShapes = [
   [[0, 0], [0.9, 0.1], [0.7, 0.5], [0.3, 0.7], [0.1, 0.3]],
 ]
 
-const shape = new THREE.Shape()
-const createRandomShape = (() => {
-  return (isLowEnd: boolean) => {
-    const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
-    const scale = isLowEnd ? 2 + Math.random() * 3 : 2 + Math.random() * 5.5
-    shape.curves = []
-    shardPoints.forEach((point, index) => {
-      const [x, y] = point
-      const scaledX = x * scale
-      const scaledY = y * scale
-      if (index === 0) {
-        shape.moveTo(scaledX, scaledY)
-      } else {
-        shape.lineTo(scaledX, scaledY)
-      }
-    })
-    shape.closePath()
-    return shape
-  }
-})()
+const createRandomShape = (isLowEnd: boolean) => {
+  const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
+  const scale = isLowEnd ? 2 + Math.random() * 3 : 2 + Math.random() * 5.5
+  const shape = new THREE.Shape()
+  
+  shardPoints.forEach((point, index) => {
+    const [x, y] = point
+    const scaledX = x * scale
+    const scaledY = y * scale
+    if (index === 0) {
+      shape.moveTo(scaledX, scaledY)
+    } else {
+      shape.lineTo(scaledX, scaledY)
+    }
+  })
+  shape.closePath()
+  return shape
+}
 
 const extrudeSettings = {
   steps: 1,
