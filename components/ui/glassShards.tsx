@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useRef, useMemo, useCallback, useState, useEffect } from 'react'
-import { Canvas, useFrame, useThree, RootState } from '@react-three/fiber'
+import { Canvas, useFrame, RootState } from '@react-three/fiber'
 import { MeshTransmissionMaterial, Environment, useDetectGPU } from '@react-three/drei'
 import * as THREE from 'three'
 
