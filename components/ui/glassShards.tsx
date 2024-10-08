@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useRef, useMemo, useCallback, useState, useEffect } from 'react'
-import { Canvas, useFrame, RootState } from '@react-three/fiber'
+import { Canvas, useFrame, useThree, RootState } from '@react-three/fiber'
 import { MeshTransmissionMaterial, Environment, useDetectGPU } from '@react-three/drei'
 import * as THREE from 'three'
 
@@ -22,9 +22,9 @@ const shardShapes = [
 
 const shape = new THREE.Shape()
 const createRandomShape = (() => {
-  return () => {
+  return (isMobile: boolean) => {
     const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
-    const scale = 2 + Math.random() * 5.5
+    const scale = isMobile ? 2 + Math.random() * 4 : 2 + Math.random() * 5.5
     shape.curves = []
     shardPoints.forEach((point, index) => {
       const [x, y] = point
@@ -115,24 +115,25 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
 
 interface ShardsProps {
   count: number
+  isMobile: boolean
 }
 
-const Shards = React.memo(({ count }: ShardsProps) => {
+const Shards = React.memo(({ count, isMobile }: ShardsProps) => {
   const shards = useMemo(() => {
     return Array.from({ length: count }, () => {
-      const size = Math.random() * 1 + 1.5
+      const size = isMobile ? Math.random() * 0.7 + 1.2 : Math.random() * 1 + 1.5
       return {
         position: [
-          (Math.random() - 0.5) * 30,
-          Math.random() * 30,
-          (Math.random() - 0.5) * 25
+          (Math.random() - 0.5) * (isMobile ? 18 : 30),
+          Math.random() * (isMobile ? 18 : 30),
+          (Math.random() - 0.5) * (isMobile ? 12 : 25)
         ] as [number, number, number],
         rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
         scale: [size, size, size] as [number, number, number],
-        shape: createRandomShape(),
+        shape: createRandomShape(isMobile),
       }
     })
-  }, [count])
+  }, [count, isMobile])
 
   return (
     <>
@@ -149,38 +150,54 @@ const Lighting = React.memo(() => (
 ))
 Lighting.displayName = 'Lighting'
 
-const cameraSettings = {
-  position: [0, 0, 20] as [number, number, number],
-  fov: 50,
+function CameraAdjuster({ isMobile }: { isMobile: boolean }) {
+  const { camera } = useThree()
+
+  useEffect(() => {
+    if (camera instanceof THREE.PerspectiveCamera) {
+      if (isMobile) {
+        camera.position.set(0, 0, 16)
+        camera.fov = 70
+      } else {
+        camera.position.set(0, 0, 20)
+        camera.fov = 50
+      }
+      camera.updateProjectionMatrix()
+    }
+  }, [camera, isMobile])
+
+  return null
 }
 
 export default function GlassShards() {
   const [shardCount, setShardCount] = useState(7)
+  const [isMobile, setIsMobile] = useState(false)
   const gpu = useDetectGPU()
 
   useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-    const isLowEnd = gpu.tier < 2
-    if (isMobile || isLowEnd) {
-      setShardCount(4)
-    } else if (gpu.tier < 3) {
-      setShardCount(5)
+    const checkMobile = () => {
+      const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768
+      setIsMobile(mobile)
+      
+      const isLowEnd = gpu.tier < 2
+      if (mobile) {
+        setShardCount(isLowEnd ? 5 : 6)
+      } else {
+        setShardCount(isLowEnd ? 5 : 7)
+      }
     }
-  }, [gpu])
 
-  const updateCamera = useCallback((state: RootState) => {
-    if (state.camera instanceof THREE.PerspectiveCamera) {
-      state.camera.position.set(cameraSettings.position[0], cameraSettings.position[1], cameraSettings.position[2])
-      state.camera.fov = cameraSettings.fov
-      state.camera.updateProjectionMatrix()
-    }
-  }, [])
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [gpu])
 
   return (
     <div className="w-full h-screen">
-      <Canvas onCreated={updateCamera}>
+      <Canvas>
+        <CameraAdjuster isMobile={isMobile} />
         <Lighting />
-        <Shards count={shardCount} />
+        <Shards count={shardCount} isMobile={isMobile} />
         <Environment preset="sunset" blur={0.2} backgroundBlurriness={1} />
       </Canvas>
     </div>
