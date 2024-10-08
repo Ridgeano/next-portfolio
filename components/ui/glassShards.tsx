@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useCallback } from 'react'
+import React, { useRef, useMemo, useCallback, useState } from 'react'
 import { Canvas, useFrame, RootState } from '@react-three/fiber'
 import { MeshTransmissionMaterial, Environment } from '@react-three/drei'
 import * as THREE from 'three'
@@ -53,7 +53,10 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
     z: (Math.random() - 0.5) * 0.01,
   })
 
-  useFrame(() => {
+  // State to hold the current resolution
+  const [resolution, setResolution] = useState(360)
+
+  useFrame((state, delta) => {
     if (mesh.current) {
       mesh.current.position.y -= fallSpeed.current
       if (mesh.current.position.y < -10) {
@@ -62,6 +65,18 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
       mesh.current.rotation.x += rotationSpeed.current.x
       mesh.current.rotation.y += rotationSpeed.current.y
       mesh.current.rotation.z += rotationSpeed.current.z
+    }
+
+    // Calculate FPS
+    const fps = 1 / delta
+
+    // Adjust resolution based on FPS
+    if (fps > 50) {
+      setResolution(360)
+    } else if (fps > 30) {
+      setResolution(180)
+    } else {
+      setResolution(90)
     }
   })
 
@@ -86,7 +101,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         roughness={0.2}
         clearcoat={0.1}
         clearcoatRoughness={0.1}
-        resolution={720}
+        resolution={resolution} // dynamic resolution here
       />
     </mesh>
   )
