@@ -1,6 +1,8 @@
-import React, { useRef, useMemo, useCallback, useState } from 'react'
-import { Canvas, useFrame, RootState } from '@react-three/fiber'
-import { MeshTransmissionMaterial, Environment } from '@react-three/drei'
+"use client"
+
+import React, { useRef, useMemo, useCallback, useState, useEffect } from 'react'
+import { Canvas, useFrame, useThree, RootState } from '@react-three/fiber'
+import { MeshTransmissionMaterial, Environment, useDetectGPU } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface ShardProps {
@@ -10,12 +12,13 @@ interface ShardProps {
   shape: THREE.Shape
 }
 
-const shardShapes = [ [ [0, 0], [0.5, 0.2], 
-[0.7, 0.7], [0.2, 0.5], ], [ [0, 0], [0.8, 0.1], 
-[0.6, 0.6], [0.1, 0.4], ], [ [0, 0], [0.6, 0.3], 
-[0.4, 0.7], [0.1, 0.5], ], [ [0, 0], [0.7, 0.2], 
-[0.5, 0.8], [0.1, 0.6], ], [ [0, 0], [0.9, 0.1], 
-[0.7, 0.5], [0.3, 0.7], [0.1, 0.3], ], ]
+const shardShapes = [
+  [[0, 0], [0.5, 0.2], [0.7, 0.7], [0.2, 0.5]],
+  [[0, 0], [0.8, 0.1], [0.6, 0.6], [0.1, 0.4]],
+  [[0, 0], [0.6, 0.3], [0.4, 0.7], [0.1, 0.5]],
+  [[0, 0], [0.7, 0.2], [0.5, 0.8], [0.1, 0.6]],
+  [[0, 0], [0.9, 0.1], [0.7, 0.5], [0.3, 0.7], [0.1, 0.3]],
+]
 
 const shape = new THREE.Shape()
 const createRandomShape = (() => {
@@ -53,8 +56,8 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
     z: (Math.random() - 0.5) * 0.01,
   })
 
-  // State to hold the current resolution
   const [resolution, setResolution] = useState(360)
+  const fpsHistory = useRef<number[]>([])
 
   useFrame((state, delta) => {
     if (mesh.current) {
@@ -67,16 +70,19 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
       mesh.current.rotation.z += rotationSpeed.current.z
     }
 
-    // Calculate FPS
+    // Calculate FPS and update resolution less frequently
     const fps = 1 / delta
-
-    // Adjust resolution based on FPS
-    if (fps > 50) {
-      setResolution(360)
-    } else if (fps > 30) {
-      setResolution(180)
-    } else {
-      setResolution(90)
+    fpsHistory.current.push(fps)
+    if (fpsHistory.current.length > 10) {
+      fpsHistory.current.shift()
+      const avgFps = fpsHistory.current.reduce((sum, fps) => sum + fps, 0) / fpsHistory.current.length
+      if (avgFps > 50) {
+        setResolution(360)
+      } else if (avgFps > 30) {
+        setResolution(180)
+      } else {
+        setResolution(90)
+      }
     }
   })
 
@@ -101,15 +107,19 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         roughness={0.2}
         clearcoat={0.1}
         clearcoatRoughness={0.1}
-        resolution={resolution} // dynamic resolution here
+        resolution={resolution}
       />
     </mesh>
   )
 }
 
-const Shards = React.memo(() => {
+interface ShardsProps {
+  count: number
+}
+
+const Shards = React.memo(({ count }: ShardsProps) => {
   const shards = useMemo(() => {
-    return Array.from({ length: 7 }, () => {
+    return Array.from({ length: count }, () => {
       const size = Math.random() * 1 + 1.5
       return {
         position: [
@@ -122,8 +132,7 @@ const Shards = React.memo(() => {
         shape: createRandomShape(),
       }
     })
-  }, [])
-  Shards.displayName = 'Shards'
+  }, [count])
 
   return (
     <>
@@ -133,6 +142,7 @@ const Shards = React.memo(() => {
     </>
   )
 })
+Shards.displayName = 'Shards'
 
 const Lighting = React.memo(() => (
   <ambientLight intensity={0.2} />
@@ -145,6 +155,19 @@ const cameraSettings = {
 }
 
 export default function GlassShards() {
+  const [shardCount, setShardCount] = useState(7)
+  const gpu = useDetectGPU()
+
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    const isLowEnd = gpu.tier < 2
+    if (isMobile || isLowEnd) {
+      setShardCount(4)
+    } else if (gpu.tier < 3) {
+      setShardCount(5)
+    }
+  }, [gpu])
+
   const updateCamera = useCallback((state: RootState) => {
     if (state.camera instanceof THREE.PerspectiveCamera) {
       state.camera.position.set(cameraSettings.position[0], cameraSettings.position[1], cameraSettings.position[2])
@@ -157,7 +180,7 @@ export default function GlassShards() {
     <div className="w-full h-screen">
       <Canvas onCreated={updateCamera}>
         <Lighting />
-        <Shards />
+        <Shards count={shardCount} />
         <Environment preset="sunset" blur={0.2} backgroundBlurriness={1} />
       </Canvas>
     </div>
