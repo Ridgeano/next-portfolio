@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useRef, useMemo, useState, useEffect } from 'react'
-import { Canvas, useFrame, useThree} from '@react-three/fiber'
-import { MeshTransmissionMaterial, Environment, useDetectGPU } from '@react-three/drei'
+import React, { useRef, useMemo, useCallback, useState, useEffect, useTransition } from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { MeshTransmissionMaterial, Environment, useDetectGPU, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface ShardProps {
@@ -10,6 +10,7 @@ interface ShardProps {
   rotation: [number, number, number]
   scale: [number, number, number]
   shape: THREE.Shape
+  isLowEnd: boolean
 }
 
 const shardShapes = [
@@ -22,9 +23,9 @@ const shardShapes = [
 
 const shape = new THREE.Shape()
 const createRandomShape = (() => {
-  return (isMobile: boolean) => {
+  return (isLowEnd: boolean) => {
     const shardPoints = shardShapes[Math.floor(Math.random() * shardShapes.length)]
-    const scale = isMobile ? 2 + Math.random() * 4 : 2 + Math.random() * 5.5
+    const scale = isLowEnd ? 2 + Math.random() * 3 : 2 + Math.random() * 5.5
     shape.curves = []
     shardPoints.forEach((point, index) => {
       const [x, y] = point
@@ -47,7 +48,7 @@ const extrudeSettings = {
   bevelEnabled: false,
 }
 
-function Shard({ position, rotation, scale, shape }: ShardProps) {
+function Shard({ position, rotation, scale, shape, isLowEnd }: ShardProps) {
   const mesh = useRef<THREE.Mesh>(null)
   const fallSpeed = useRef(0.005 + Math.random() * 0.01)
   const rotationSpeed = useRef({
@@ -56,7 +57,7 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
     z: (Math.random() - 0.5) * 0.01,
   })
 
-  const [resolution, setResolution] = useState(360)
+  const [resolution, setResolution] = useState(isLowEnd ? 90 : 360)
   const fpsHistory = useRef<number[]>([])
 
   useFrame((state, delta) => {
@@ -70,18 +71,19 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
       mesh.current.rotation.z += rotationSpeed.current.z
     }
 
-    // Calculate FPS and update resolution less frequently
-    const fps = 1 / delta
-    fpsHistory.current.push(fps)
-    if (fpsHistory.current.length > 10) {
-      fpsHistory.current.shift()
-      const avgFps = fpsHistory.current.reduce((sum, fps) => sum + fps, 0) / fpsHistory.current.length
-      if (avgFps > 50) {
-        setResolution(360)
-      } else if (avgFps > 30) {
-        setResolution(180)
-      } else {
-        setResolution(90)
+    if (!isLowEnd) {
+      const fps = 1 / delta
+      fpsHistory.current.push(fps)
+      if (fpsHistory.current.length > 10) {
+        fpsHistory.current.shift()
+        const avgFps = fpsHistory.current.reduce((sum, fps) => sum + fps, 0) / fpsHistory.current.length
+        if (avgFps > 50) {
+          setResolution(360)
+        } else if (avgFps > 30) {
+          setResolution(180)
+        } else {
+          setResolution(90)
+        }
       }
     }
   })
@@ -94,18 +96,18 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
         backside
         backsideThickness={0.2}
         thickness={0.1}
-        chromaticAberration={0.05}
+        chromaticAberration={isLowEnd ? 0 : 0.05}
         transmission={0.95}
         ior={1.5}
-        distortion={0.1}
-        distortionScale={0.1}
-        temporalDistortion={0.02}
+        distortion={isLowEnd ? 0.05 : 0.1}
+        distortionScale={isLowEnd ? 0.05 : 0.1}
+        temporalDistortion={isLowEnd ? 0 : 0.02}
         attenuationDistance={2}
         attenuationColor="#ffffff"
         color="#9333ea"
-        reflectivity={0.9}
+        reflectivity={isLowEnd ? 0.7 : 0.9}
         roughness={0.2}
-        clearcoat={0.1}
+        clearcoat={isLowEnd ? 0 : 0.1}
         clearcoatRoughness={0.1}
         resolution={resolution}
       />
@@ -115,25 +117,36 @@ function Shard({ position, rotation, scale, shape }: ShardProps) {
 
 interface ShardsProps {
   count: number
-  isMobile: boolean
+  isLowEnd: boolean
 }
 
-const Shards = React.memo(({ count, isMobile }: ShardsProps) => {
-  const shards = useMemo(() => {
-    return Array.from({ length: count }, () => {
-      const size = isMobile ? Math.random() * 0.7 + 1.2 : Math.random() * 1 + 1.5
-      return {
-        position: [
-          (Math.random() - 0.5) * (isMobile ? 18 : 30),
-          Math.random() * (isMobile ? 18 : 30),
-          (Math.random() - 0.5) * (isMobile ? 12 : 25)
-        ] as [number, number, number],
-        rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
-        scale: [size, size, size] as [number, number, number],
-        shape: createRandomShape(isMobile),
-      }
+const Shards = React.memo(({ count, isLowEnd }: ShardsProps) => {
+  const [shards, setShards] = useState<ShardProps[]>([])
+  const [isPending, startTransition] = useTransition()
+
+  useEffect(() => {
+    startTransition(() => {
+      const newShards = Array.from({ length: count }, () => {
+        const size = isLowEnd ? Math.random() * 0.5 + 1 : Math.random() * 1 + 1.5
+        return {
+          position: [
+            (Math.random() - 0.5) * (isLowEnd ? 15 : 30),
+            Math.random() * (isLowEnd ? 15 : 30),
+            (Math.random() - 0.5) * (isLowEnd ? 10 : 25)
+          ] as [number, number, number],
+          rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
+          scale: [size, size, size] as [number, number, number],
+          shape: createRandomShape(isLowEnd),
+          isLowEnd: isLowEnd
+        }
+      })
+      setShards(newShards)
     })
-  }, [count, isMobile])
+  }, [count, isLowEnd])
+
+  if (isPending) {
+    return <Text color="white" anchorX="center" anchorY="middle" position={[0, 0, 0]}>Loading shards...</Text>
+  }
 
   return (
     <>
@@ -150,55 +163,57 @@ const Lighting = React.memo(() => (
 ))
 Lighting.displayName = 'Lighting'
 
-function CameraAdjuster({ isMobile }: { isMobile: boolean }) {
+function CameraAdjuster({ isLowEnd }: { isLowEnd: boolean }) {
   const { camera } = useThree()
 
   useEffect(() => {
     if (camera instanceof THREE.PerspectiveCamera) {
-      if (isMobile) {
-        camera.position.set(0, 0, 16)
-        camera.fov = 70
+      if (isLowEnd) {
+        camera.position.set(0, 0, 15)
+        camera.fov = 75
       } else {
         camera.position.set(0, 0, 20)
         camera.fov = 50
       }
       camera.updateProjectionMatrix()
     }
-  }, [camera, isMobile])
+  }, [camera, isLowEnd])
 
   return null
 }
 
 export default function GlassShards() {
   const [shardCount, setShardCount] = useState(7)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isLowEnd, setIsLowEnd] = useState(false)
   const gpu = useDetectGPU()
 
   useEffect(() => {
-    const checkMobile = () => {
-      const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768
-      setIsMobile(mobile)
+    const checkDevice = () => {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+      const isLowEndDevice = gpu.tier < 2 || (isMobile && gpu.tier < 3)
+      setIsLowEnd(isLowEndDevice)
       
-      const isLowEnd = gpu.tier < 2
-      if (mobile) {
-        setShardCount(isLowEnd ? 5 : 6)
+      if (isLowEndDevice) {
+        setShardCount(4)
+      } else if (isMobile || gpu.tier === 2) {
+        setShardCount(5)
       } else {
-        setShardCount(isLowEnd ? 5 : 7)
+        setShardCount(7)
       }
     }
 
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    checkDevice()
+    window.addEventListener('resize', checkDevice)
+    return () => window.removeEventListener('resize', checkDevice)
   }, [gpu])
 
   return (
     <div className="w-full h-screen">
-      <Canvas>
-        <CameraAdjuster isMobile={isMobile} />
+      <Canvas dpr={isLowEnd ? 1 : [1, 2]}>
+        <CameraAdjuster isLowEnd={isLowEnd} />
         <Lighting />
-        <Shards count={shardCount} isMobile={isMobile} />
-        <Environment preset="sunset" blur={0.2} backgroundBlurriness={1} />
+        <Shards count={shardCount} isLowEnd={isLowEnd} />
+        <Environment preset="sunset" blur={isLowEnd ? 0.1 : 0.2} backgroundBlurriness={isLowEnd ? 0.5 : 1} />
       </Canvas>
     </div>
   )
