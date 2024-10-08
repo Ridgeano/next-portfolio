@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -11,7 +11,7 @@ import FeaturedWork from "@/components/FeaturedWork"
 import Contact from "@/components/Contact"
 import AboutMe from "@/components/AboutMe"
 
-export default function Component() {
+export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [isHeroVisible, setIsHeroVisible] = useState(true)
   const heroRef = useRef<HTMLDivElement>(null)
@@ -25,7 +25,7 @@ export default function Component() {
       ([entry]) => {
         setIsHeroVisible(entry.isIntersecting)
       },
-      { threshold: 0.1 } // Trigger when 10% of the hero is visible
+      { threshold: 0.1 }
     )
 
     if (heroRef.current) {
@@ -40,27 +40,25 @@ export default function Component() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-zinc-100">
-      <motion.main
-        className="relative"
-        initial={false}
-        animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "visible" }}
-      >
-        <AnimatePresence>
-          {isLoading && (
-            <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
-          )}
-        </AnimatePresence>
-        <CursorFollower />
-        <Nav isHeroVisible={isHeroVisible} />
-        <div ref={heroRef}>
-          <Hero />
-        </div>
-        <FeaturedWork />
-        <ScrollingBanner phrase={"What you can expect from me"} />
-        <AboutMe />
-        <Contact />
-      </motion.main>
-    </div>
+    <motion.main
+      className="relative min-h-screen bg-zinc-100"
+      initial={false}
+      animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "visible" }}
+    >
+      <AnimatePresence>
+        {isLoading && (
+          <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
+        )}
+      </AnimatePresence>
+      <CursorFollower />
+      <Nav isHeroVisible={isHeroVisible} />
+      <div ref={heroRef}>
+        <Hero />
+      </div>
+      <FeaturedWork />
+      <ScrollingBanner phrase={"What you can expect from me"} />
+      <AboutMe />
+      <Contact />
+    </motion.main>
   )
 }
