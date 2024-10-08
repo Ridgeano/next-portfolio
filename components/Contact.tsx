@@ -28,7 +28,7 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          Let's Create Together
+          Let&apos;s Create Together
         </motion.h2>
         <div className="flex flex-col md:flex-row justify-between items-start mb-6 md:mb-10">
           <motion.div 
@@ -38,7 +38,8 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h3 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4">Get in Touch</h3>
-            <p className="mb-4 md:mb-6 text-gray-400 text-sm md:text-base">I'm always looking for new opportunities. Send me a message and let's create something amazing.</p>
+            <p className="mb-4 md:mb-6 text-gray-400 text-sm md:text-base">I&apos;m always looking for new opportunities. 
+              Send me a message and let&apos;s create something amazing.</p>
           </motion.div>
           <motion.div 
             className="w-full md:w-1/2 lowercase"

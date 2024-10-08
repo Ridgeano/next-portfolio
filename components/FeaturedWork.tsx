@@ -50,7 +50,7 @@ export default function FeaturedWork() {
 
   useEffect(() => {
     projectRefs.current = projectRefs.current.slice(0, projects.length)
-  }, [projects])
+  }, [])
 
   useEffect(() => {
     if (isMobile && isMounted) {

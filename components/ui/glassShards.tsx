@@ -123,6 +123,7 @@ const Shards = React.memo(() => {
       }
     })
   }, [])
+  Shards.displayName = 'Shards'
 
   return (
     <>
@@ -136,6 +137,7 @@ const Shards = React.memo(() => {
 const Lighting = React.memo(() => (
   <ambientLight intensity={0.2} />
 ))
+Lighting.displayName = 'Lighting'
 
 const cameraSettings = {
   position: [0, 0, 20] as [number, number, number],

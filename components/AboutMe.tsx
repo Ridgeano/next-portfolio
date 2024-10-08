@@ -70,8 +70,11 @@ export default function AboutMe() {
           transition={{ delay: 0.8, duration: 0.5 }}
         >
           <p className="text-base sm:text-base lg:text-lg text-zinc-700 mb-6 sm:mb-8">
-            I bring a comprehensive approach to web development, bridging the gap between frontend and backend technologies. My expertise spans across modern JavaScript frameworks, server-side programming, and database management. I'm passionate about creating efficient, scalable applications that not only perform well but also provide an exceptional user experience.
-          </p>
+            I bring a comprehensive approach to web development, 
+            bridging the gap between frontend and backend technologies. 
+            My expertise spans across modern JavaScript frameworks, server-side programming, 
+            and database management. I&apos;m passionate about creating efficient, scalable applications 
+            that not only perform well but also provide an exceptional user experience.</p>
 
           <motion.button
             className="group inline-flex items-center bg-violet-500 text-zinc-950 font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full hover:bg-violet-400 transition duration-300 text-sm sm:text-base"
