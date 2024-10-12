@@ -9,7 +9,7 @@ import CursorFollower from "@/components/ui/cursorFollow"
 import ScrollingBanner from "@/components/scrollingBanner"
 import FeaturedWork from "@/components/FeaturedWork"
 import Contact from "@/components/Contact"
-import AboutMe from "@/components/AboutMe"
+import Summary from "@/components/Summary"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -59,7 +59,7 @@ export default function Home() {
       </div>
       <FeaturedWork />
       <ScrollingBanner phrase={"What you can expect from me"} />
-      <AboutMe />
+      <Summary />
       <Contact />
     </motion.main>
   )

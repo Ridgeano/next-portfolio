@@ -5,7 +5,7 @@ import { useRef } from 'react'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
-export default function AboutMe() {
+export default function Summary() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.3 })
 
