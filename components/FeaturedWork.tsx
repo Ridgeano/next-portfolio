@@ -2,35 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Image, { StaticImageData } from 'next/image'
-import { ArrowUpRight } from 'lucide-react'
-import gazetteer from '../public/gazetteer.png'
-import nextjs_port from '../public/nextjs-port.png'
-import company_dirt from '../public/companyDirectory.png'
-
-interface Project {
-  title: string
-  subtitle: string
-  image: StaticImageData
-}
-
-const projects: Project[] = [
-  {
-    title: "gazetteer",
-    subtitle: "Web App",
-    image: gazetteer
-  },
-  {
-    title: "company directory",
-    subtitle: "Web App",
-    image: company_dirt
-  },
-  {
-    title: "portfolio",
-    subtitle: "next.js",
-    image: nextjs_port
-  },
-]
+import Image from 'next/image'
+import {projects} from '../lib/projects'
 
 export default function FeaturedWork() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
