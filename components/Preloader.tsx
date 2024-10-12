@@ -65,7 +65,7 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
         }
         return prevProgress + 1
       })
-    }, 20)
+    }, 2)
 
     return () => clearInterval(timer)
   }, [])
