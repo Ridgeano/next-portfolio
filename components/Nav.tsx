@@ -4,15 +4,15 @@ import Link from 'next/link'
 
 const navItems = [
   { title: "HOME", href: "/" },
-  { title: "PROJECTS", href: "/projects" },
+  { title: "PROJECTS", href: "/#projects" },
   { title: "ABOUT", href: "/about" },
   { title: "CONTACT", href: "/contact" }
 ]
 
 const socialItems = [
-  { title: "GitHub", href: "https://github.com" },
   { title: "LinkedIn", href: "https://linkedin.com" },
-  { title: "Twitter", href: "https://twitter.com" }
+  { title: "Résumé", href: "https://twitter.com" },
+  { title: "GitHub", href: "https://github.com" },
 ]
 
 interface NavProps {
@@ -58,7 +58,7 @@ export default function Nav({ isHeroVisible }: NavProps) {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                Sean Ridgeon
+                sean ridgeon
               </motion.div>
             )}
           </AnimatePresence>
@@ -98,7 +98,7 @@ export default function Nav({ isHeroVisible }: NavProps) {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <Link href={item.href} className="text-2xl font-bold lowercase text-black hover:text-gray-800">
+                      <Link href={item.href} className="text-2xl font-bold lowercase text-black hover:underline">
                         {item.title}
                       </Link>
                     </motion.li>

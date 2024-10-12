@@ -5,12 +5,29 @@ import { motion, useSpring, useMotionValue, useMotionValueEvent } from 'framer-m
 
 export default function CursorFollower() {
   const [isVisible, setIsVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
 
   const springConfig = { damping: 150, stiffness: 700 }
   const cursorXSpring = useSpring(cursorX, springConfig)
   const cursorYSpring = useSpring(cursorY, springConfig)
+
+  useEffect(() => {
+    // Check if the device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia("(max-width: 768px)").matches)
+    }
+
+    // Initial check
+    checkMobile()
+
+    // Add event listener for window resize
+    window.addEventListener("resize", checkMobile)
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   useMotionValueEvent(cursorX, "change", (latest) => {
     if (!isVisible && latest !== -100) {
@@ -19,6 +36,8 @@ export default function CursorFollower() {
   })
 
   useEffect(() => {
+    if (isMobile) return // Don't add event listener on mobile devices
+
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX - 10)
       cursorY.set(e.clientY - 10)
@@ -29,7 +48,9 @@ export default function CursorFollower() {
     return () => {
       window.removeEventListener("mousemove", moveCursor)
     }
-  }, [cursorX, cursorY])
+  }, [cursorX, cursorY, isMobile])
+
+  if (isMobile) return null // Don't render anything on mobile devices
 
   return (
     <motion.div

@@ -86,7 +86,7 @@ export default function FeaturedWork() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="container mx-auto px-4 py-16" id='projects'>
       <div className="max-w-8xl mx-auto">
         <h2 className="text-3xl font-bold mb-12 pl-4 border-l-4 border-violet-500 w-fit lowercase">Recent Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -146,6 +146,7 @@ export default function FeaturedWork() {
             ))}
           </AnimatePresence>
         </div>
+        {/* 
         <div className="mt-12 text-right">
           <motion.button
             className="group inline-flex items-center lowercase bg-violet-500 text-zinc-950 font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full hover:bg-violet-400 transition duration-300 text-sm sm:text-base"
@@ -156,6 +157,7 @@ export default function FeaturedWork() {
             <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
           </motion.button>
         </div>
+        */}
       </div>
     </div>
   )

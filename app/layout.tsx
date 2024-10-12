@@ -12,7 +12,7 @@ const majorMonoDisplay = Major_Mono_Display({
 
 export const metadata: Metadata = {
   title: 'Sean Ridgeon - Software Developer',
-  description: 'Portfolio of Sean Ridgeon, a software developer',
+  description: 'A self-motivated, forward-thinking Full Stack Developer with a keen interest in UX/UI',
 }
 
 export default function RootLayout({
