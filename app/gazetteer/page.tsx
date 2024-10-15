@@ -153,7 +153,7 @@ export default function Gazetteer() {
           <h2 className="text-3xl font-semibold text-zinc-900 mb-6">Project Details</h2>
           <div className="prose prose-lg max-w-none text-zinc-600">
             <p>
-              The Gazetteer project is designed as a "mobile first" website that operates equally well on desktop computers. It aims to provide comprehensive profiles for all countries, presenting demographic, climatic, and geographical data.
+              The Gazetteer project is designed as a &quot;mobile first&quot; website that operates equally well on desktop computers. It aims to provide comprehensive profiles for all countries, presenting demographic, climatic, and geographical data.
             </p>
             <p>
               One of the main challenges was integrating various third-party APIs to fetch and display accurate and up-to-date information for each country. We used PHP cURL for server-side requests to interact with these external APIs, ensuring data consistency and reliability.

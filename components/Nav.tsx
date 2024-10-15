@@ -71,6 +71,8 @@ export default function Nav({ isHeroVisible }: NavProps) {
         </button>
       </div>
 
+      
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
