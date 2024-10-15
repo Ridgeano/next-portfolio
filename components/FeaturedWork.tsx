@@ -3,13 +3,15 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import {projects} from '../lib/projects'
+import { useRouter } from 'next/navigation'
+import { projects } from '../lib/projects'
 
 export default function FeaturedWork() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [isMounted, setIsMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const projectRefs = useRef<(HTMLDivElement | null)[]>([])
+  const router = useRouter()
 
   useEffect(() => {
     setIsMounted(true)
@@ -58,6 +60,10 @@ export default function FeaturedWork() {
     return null
   }
 
+  const handleProjectClick = (url: string) => {
+    router.push(url)
+  }
+
   return (
     <div className="container mx-auto px-4 py-16" id='projects'>
       <div className="max-w-8xl mx-auto">
@@ -73,6 +79,7 @@ export default function FeaturedWork() {
                 className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
                 onHoverStart={() => !isMobile && setHoveredIndex(index)}
                 onHoverEnd={() => !isMobile && setHoveredIndex(null)}
+                onClick={() => handleProjectClick(project.url)}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -119,18 +126,6 @@ export default function FeaturedWork() {
             ))}
           </AnimatePresence>
         </div>
-        {/* 
-        <div className="mt-12 text-right">
-          <motion.button
-            className="group inline-flex items-center lowercase bg-violet-500 text-zinc-950 font-bold py-2 sm:py-3 px-4 sm:px-6 rounded-full hover:bg-violet-400 transition duration-300 text-sm sm:text-base"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            More Projects
-            <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </motion.button>
-        </div>
-        */}
       </div>
     </div>
   )

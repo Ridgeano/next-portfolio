@@ -11,7 +11,7 @@ const navItems = [
 
 const socialItems = [
   { title: "LinkedIn", href: "https://linkedin.com" },
-  { title: "Résumé", href: "https://twitter.com" },
+  { title: "Resume", href: "https://twitter.com" },
   { title: "GitHub", href: "https://github.com" },
 ]
 
