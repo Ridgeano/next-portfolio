@@ -2,17 +2,10 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 
-const navItems = [
-  { title: "HOME", href: "/" },
-  { title: "PROJECTS", href: "/#projects" },
-  { title: "ABOUT", href: "/about" },
-  { title: "CONTACT", href: "/contact" }
-]
-
-const socialItems = [
-  { title: "LinkedIn", href: "https://linkedin.com" },
-  { title: "Resume", href: "https://twitter.com" },
-  { title: "GitHub", href: "https://github.com" },
+const menuItems = [
+  { title: "LinkedIn", href: "https://linkedin.com/in/sean-ridgeon-a49798124" },
+  { title: "Resume", href: "https://example.com/resume" },
+  { title: "GitHub", href: "https://github.com/yourusername" },
 ]
 
 interface NavProps {
@@ -35,14 +28,17 @@ export default function Nav({ isHeroVisible }: NavProps) {
   const menuVariants = {
     closed: {
       opacity: 0,
-      scale: 0,
       transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
     },
     open: {
       opacity: 1,
-      scale: 1,
       transition: { duration: 0.4, ease: [0, 0, 0.2, 1] }
     }
+  }
+
+  const itemVariants = {
+    closed: { opacity: 0, y: 20 },
+    open: { opacity: 1, y: 0 }
   }
 
   return (
@@ -52,72 +48,61 @@ export default function Nav({ isHeroVisible }: NavProps) {
           <AnimatePresence>
             {isHeroVisible && (
               <motion.div
-                className="text-2xl font-bold"
+                className="inline-block text-2xl font-bold text-white px-3 py-2 rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                sean ridgeon
+                {isMobile ? "sr" : "sean ridgeon"}
               </motion.div>
             )}
           </AnimatePresence>
         </div>
         <button
-          className="w-12 h-12 flex flex-col justify-center items-center focus:outline-none rounded-lg"
+          className="w-12 h-12 flex flex-col justify-center 
+          items-center focus:outline-none rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close menu" : "Open menu"}
         >
-          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-black rotate-45 translate-y-1' : 'bg-black'}`}></span>
-          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-black opacity-0' : 'bg-black opacity-100 my-1'}`}></span>
-          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-black -rotate-45 -translate-y-1' : 'bg-black'}`}></span>
+          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-white rotate-45 translate-y-1' : 'bg-white'}`}></span>
+          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-white opacity-0' : 'bg-white opacity-100 my-1'}`}></span>
+          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-white -rotate-45 -translate-y-1' : 'bg-white'}`}></span>
         </button>
       </div>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className={`fixed bg-violet-500 flex flex-col rounded-lg z-[30] ${
-              isMobile
-                ? 'inset-2'
-                : 'top-2 right-2 w-80 h-auto max-h-[calc(100vh-1rem)]'
-            }`}
+            className="fixed top-20 right-4 z-[30]"
             variants={menuVariants}
             initial="closed"
             animate="open"
             exit="closed"
-            style={{ originX: 1, originY: 0 }}
           >
-            <div className={`flex flex-col h-full ${isMobile ? 'p-4' : 'p-8'}`}>
-              <nav className="flex-grow mt-16">
-                <ul className="space-y-6">
-                  {navItems.map((item, index) => (
-                    <motion.li
-                      key={item.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
+            <nav>
+              <ul className="space-y-4">
+                {menuItems.map((item, index) => (
+                  <motion.li
+                    key={item.title}
+                    variants={itemVariants}
+                    initial="closed"
+                    animate="open"
+                    exit="closed"
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Link 
+                      href={item.href}
+                      className="inline-block text-lg font-bold lowercase text-white hover:text-black px-4 py-2 rounded-lg bg-violet-500 bg-opacity-80 backdrop-blur-sm hover:bg-opacity-100 transition-all duration-300"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      <Link href={item.href} className="text-2xl font-bold lowercase text-black hover:underline">
-                        {item.title}
-                      </Link>
-                    </motion.li>
-                  ))}
-                </ul>
-              </nav>
-
-              <div className="mt-auto pt-8">
-                <ul className="flex flex-wrap gap-4">
-                  {socialItems.map((item) => (
-                    <li key={item.title}>
-                      <Link href={item.href} className="text-sm font-bold lowercase text-black hover:underline">
-                        {item.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+                      {item.title}
+                    </Link>
+                  </motion.li>
+                ))}
+              </ul>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>

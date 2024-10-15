@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { projects } from '../lib/projects'
 
 export default function FeaturedWork() {
@@ -11,7 +11,6 @@ export default function FeaturedWork() {
   const [isMounted, setIsMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const projectRefs = useRef<(HTMLDivElement | null)[]>([])
-  const router = useRouter()
 
   useEffect(() => {
     setIsMounted(true)
@@ -56,12 +55,33 @@ export default function FeaturedWork() {
     }
   }, [isMobile, isMounted])
 
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const link = target.closest('a')
+      if (link && link.getAttribute('href')?.startsWith('#')) {
+        e.preventDefault()
+        const id = link.getAttribute('href')?.slice(1)
+        const element = document.getElementById(id!)
+        if (element) {
+          const headerOffset = 80 // Adjust this value based on your header height
+          const elementPosition = element.getBoundingClientRect().top
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          })
+        }
+      }
+    }
+
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [])
+
   if (!isMounted) {
     return null
-  }
-
-  const handleProjectClick = (url: string) => {
-    router.push(url)
   }
 
   return (
@@ -71,58 +91,58 @@ export default function FeaturedWork() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence>
             {projects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                ref={(el) => {
-                  if (el) projectRefs.current[index] = el;
-                }}
-                className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
-                onHoverStart={() => !isMobile && setHoveredIndex(index)}
-                onHoverEnd={() => !isMobile && setHoveredIndex(null)}
-                onClick={() => handleProjectClick(project.url)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-              >
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  width={600}
-                  height={400}
-                  className="object-cover w-full h-64"
-                />
-                <AnimatePresence>
-                  {hoveredIndex === index && (
-                    <motion.div
-                      className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-6"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <motion.h3
-                        className="text-white text-2xl font-bold mb-2"
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -20, opacity: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
+              <Link href={project.url} key={project.title} passHref>
+                <motion.div
+                  ref={(el) => {
+                    if (el) projectRefs.current[index] = el;
+                  }}
+                  className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
+                  onHoverStart={() => !isMobile && setHoveredIndex(index)}
+                  onHoverEnd={() => !isMobile && setHoveredIndex(null)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    width={600}
+                    height={400}
+                    className="object-cover w-full h-64"
+                  />
+                  <AnimatePresence>
+                    {hoveredIndex === index && (
+                      <motion.div
+                        className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-6"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
                       >
-                        {project.title}
-                      </motion.h3>
-                      <motion.p
-                        className="text-white text-lg"
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -20, opacity: 0 }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                      >
-                        {project.subtitle}
-                      </motion.p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                        <motion.h3
+                          className="text-white text-2xl font-bold mb-2"
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          exit={{ y: -20, opacity: 0 }}
+                          transition={{ duration: 0.3, delay: 0.1 }}
+                        >
+                          {project.title}
+                        </motion.h3>
+                        <motion.p
+                          className="text-white text-lg"
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          exit={{ y: -20, opacity: 0 }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
+                          {project.subtitle}
+                        </motion.p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </Link>
             ))}
           </AnimatePresence>
         </div>
