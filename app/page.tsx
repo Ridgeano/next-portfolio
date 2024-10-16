@@ -62,9 +62,7 @@ export default function Home() {
       initial={false}
       animate={{ height: "auto", overflow: "visible" }}
     >
-      <Suspense fallback={<div>Loading...</div>}>
         <PreloaderWrapper />
-      </Suspense>
       <CursorFollower />
       <Nav isHeroVisible={isHeroVisible} />
       <div ref={heroRef}>
