@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, Suspense } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Preloader } from "@/components/Preloader"
 import Hero from "@/components/Hero"
@@ -12,22 +12,28 @@ import Contact from "@/components/Contact"
 import Summary from "@/components/Summary"
 import { useSearchParams } from 'next/navigation'
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [isHeroVisible, setIsHeroVisible] = useState(true)
-  const heroRef = useRef<HTMLDivElement>(null)
+function PreloaderWrapper() {
   const searchParams = useSearchParams()
   const skipPreloader = searchParams.get('skipPreloader') === 'true'
+
+  const [isLoading, setIsLoading] = useState(!skipPreloader)
 
   const handleLoadingComplete = () => {
     setTimeout(() => setIsLoading(false), 300) 
   }
 
-  useEffect(() => {
-    if (skipPreloader) {
-      setIsLoading(false)
-    }
-  }, [skipPreloader])
+  return (
+    <AnimatePresence>
+      {isLoading && (
+        <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
+      )}
+    </AnimatePresence>
+  )
+}
+
+export default function Home() {
+  const [isHeroVisible, setIsHeroVisible] = useState(true)
+  const heroRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,13 +60,11 @@ export default function Home() {
     <motion.main
       className="relative min-h-screen bg-zinc-100 overflow-x-hidden"
       initial={false}
-      animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "visible" }}
+      animate={{ height: "auto", overflow: "visible" }}
     >
-      <AnimatePresence>
-        {isLoading && !skipPreloader && (
-          <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
-        )}
-      </AnimatePresence>
+      <Suspense fallback={<div>Loading...</div>}>
+        <PreloaderWrapper />
+      </Suspense>
       <CursorFollower />
       <Nav isHeroVisible={isHeroVisible} />
       <div ref={heroRef}>
