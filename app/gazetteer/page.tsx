@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -33,35 +33,6 @@ export default function Gazetteer() {
     router.replace('/?skipPreloader=true')
   }
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const link = target.closest('a')
-      if (link && link.getAttribute('href')?.startsWith('#')) {
-        e.preventDefault()
-        const id = link.getAttribute('href')?.slice(1)
-        const element = document.getElementById(id!)
-        if (element) {
-          const headerHeight = headerRef.current?.offsetHeight || 0
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerHeight
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          })
-        }
-      }
-    }
-
-    document.addEventListener('click', handleClick)
-    return () => document.removeEventListener('click', handleClick)
-  }, [])
-
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       <header ref={headerRef} className="fixed top-0 left-0 right-0 z-10">
@@ -80,7 +51,7 @@ export default function Gazetteer() {
       </header>
 
       <main className={`${montserrat.className} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12`}>
-        <div className="mt-32 sm:mt-40 md:mt-48 mb-16">
+        <div className="pt-8 mb-16">
           <motion.h1 
             className="text-5xl sm:text-6xl md:text-8xl font-bold mb-6 text-white uppercase tracking-tighter"
             initial={{ opacity: 0, y: -20 }}
