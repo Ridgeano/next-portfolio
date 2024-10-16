@@ -30,8 +30,12 @@ export default function Gazetteer() {
 
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    router.push('/?skipPreloader=true')
+    router.replace('/?skipPreloader=true')
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -60,12 +64,18 @@ export default function Gazetteer() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-10 mix-blend-difference">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <a href="/" onClick={handleBackClick} className="inline-flex items-center text-white hover:text-zinc-300 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full">
-            <ChevronLeft className="h-5 w-5 mr-2" />
-            <span className="text-lg font-semibold lowercase tracking-wider">Back</span>
-          </a>
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <a
+              href="/"
+              onClick={handleBackClick}
+              className="inline-flex items-center text-white hover:text-zinc-300 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full"
+            >
+              <ChevronLeft className="h-5 w-5 mr-2" />
+              <span className="text-lg font-semibold uppercase tracking-wider">Back</span>
+            </a>
+          </div>
         </div>
       </header>
 
