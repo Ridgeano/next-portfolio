@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect} from "react"
+import { useState, useRef, useEffect, Suspense } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Preloader } from "@/components/Preloader"
 import Hero from "@/components/Hero"
@@ -62,7 +62,9 @@ export default function Home() {
       initial={false}
       animate={{ height: "auto", overflow: "visible" }}
     >
+      <Suspense>
         <PreloaderWrapper />
+      </Suspense>
       <CursorFollower />
       <Nav isHeroVisible={isHeroVisible} />
       <div ref={heroRef}>
