@@ -1,8 +1,6 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import Link from "next/link"
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 const menuItems = [
   { title: "LinkedIn", href: "https://linkedin.com/in/sean-ridgeon-a49798124" },
@@ -45,7 +43,7 @@ export default function Nav({ isHeroVisible }: NavProps) {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-4 mt-4 z-[40] max-w-full">
+      <div className="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-4 mt-4 z-[40]">
         <div className="flex-1">
           <AnimatePresence>
             {isHeroVisible && (
@@ -72,6 +70,9 @@ export default function Nav({ isHeroVisible }: NavProps) {
           <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-white -rotate-45 -translate-y-1' : 'bg-white'}`}></span>
         </button>
       </div>
+
+      
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
