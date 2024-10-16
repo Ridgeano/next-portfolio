@@ -10,15 +10,24 @@ import ScrollingBanner from "@/components/scrollingBanner"
 import FeaturedWork from "@/components/FeaturedWork"
 import Contact from "@/components/Contact"
 import Summary from "@/components/Summary"
+import { useSearchParams } from 'next/navigation'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [isHeroVisible, setIsHeroVisible] = useState(true)
   const heroRef = useRef<HTMLDivElement>(null)
+  const searchParams = useSearchParams()
+  const skipPreloader = searchParams.get('skipPreloader') === 'true'
 
   const handleLoadingComplete = () => {
     setTimeout(() => setIsLoading(false), 300) 
   }
+
+  useEffect(() => {
+    if (skipPreloader) {
+      setIsLoading(false)
+    }
+  }, [skipPreloader])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -48,7 +57,7 @@ export default function Home() {
       animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "visible" }}
     >
       <AnimatePresence>
-        {isLoading && (
+        {isLoading && !skipPreloader && (
           <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
         )}
       </AnimatePresence>
