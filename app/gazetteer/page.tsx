@@ -30,7 +30,7 @@ export default function Gazetteer() {
 
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault()
-    router.replace('/?skipPreloader=true')
+    router.replace('/')
   }
 
   return (

@@ -15,9 +15,10 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [isHeroVisible, setIsHeroVisible] = useState(true)
   const heroRef = useRef<HTMLDivElement>(null)
+  const [shouldShowPreloader, setShouldShowPreloader] = useState(false)
 
   const handleLoadingComplete = () => {
-    setTimeout(() => setIsLoading(false), 500) 
+    setTimeout(() => setIsLoading(false), 300) 
   }
 
   useEffect(() => {
@@ -41,28 +42,49 @@ export default function Home() {
     }
   }, [])
 
-  return (
+  useEffect(() => {
+    const isInitialLoad = sessionStorage.getItem('initialLoad') === null;
+    const isRootPath = window.location.pathname === '/';
 
-      <motion.main
+    if (isInitialLoad && isRootPath) {
+      setShouldShowPreloader(true);
+      sessionStorage.setItem('initialLoad', 'false');
+    } else {
+      setIsLoading(false);
+    }
+
+    const handleBeforeUnload = () => {
+      sessionStorage.removeItem('initialLoad');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  return (
+    <motion.main
       className="relative min-h-screen bg-zinc-100"
       initial={false}
       animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "hidden" }}
-      >
-    <AnimatePresence>
-      {isLoading && (
-        <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
-      )}
-    </AnimatePresence>
+    >
+      <AnimatePresence>
+        {shouldShowPreloader && isLoading && (
+          <Preloader key="preloader" onLoadingComplete={handleLoadingComplete} />
+        )}
+      </AnimatePresence>
 
-        <CursorFollower />
-        <Nav isHeroVisible={isHeroVisible} />
-        <div ref={heroRef}>
-          <Hero />
-        </div>
-        <FeaturedWork />
-        <ScrollingBanner phrase={"What you can expect from me"} />
-        <Summary />
-        <Contact />
-      </motion.main>
+      <CursorFollower />
+      {!isLoading && <Nav isHeroVisible={isHeroVisible} />}
+      <div ref={heroRef}>
+        <Hero />
+      </div>
+      <FeaturedWork />
+      <ScrollingBanner phrase={"What you can expect from me"} />
+      <Summary />
+      <Contact />
+    </motion.main>
   )
 }
