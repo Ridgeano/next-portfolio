@@ -13,7 +13,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-extrabold tracking-tight mb-4">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tight mb-4">
             <span className="block relative z-10 text-white text-outline-white">crafting</span>
             <span className="block relative z-10 text-white text-outline-white">digital</span>
             <span className="block relative z-10 text-white text-outline-white">experiences</span>
