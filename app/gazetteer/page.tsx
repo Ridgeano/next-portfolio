@@ -35,20 +35,28 @@ export default function Gazetteer() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <a
-              href="/"
-              onClick={handleBackClick}
-              className="inline-flex items-center text-white hover:text-zinc-300 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full"
+    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          <motion.a
+            href="/"
+            onClick={handleBackClick}
+            className="inline-flex items-center text-white hover:bg-blue-400 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-500"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <motion.span
+              className="mr-2"
+              animate={{ x: [0, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
             >
-              <ChevronLeft className="h-5 w-5 mr-2" />
-              <span className="text-lg font-semibold lowercase tracking-wider">Back</span>
-            </a>
-          </div>
+              <ChevronLeft className="h-5 w-5" />
+            </motion.span>
+            <span className="text-lg font-semibold lowercase tracking-wider">Back</span>
+          </motion.a>
         </div>
-      </header>
+      </div>
+    </header>
 
       <main className={`${montserrat.className} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12`}>
         <div className="pt-8 mb-16">
@@ -61,7 +69,7 @@ export default function Gazetteer() {
             Gazetteer
           </motion.h1>
           <motion.p
-            className="text-xl sm:text-2xl text-zinc-400 max-w-2xl"
+            className="text-xl sm:text-2xl text-zinc-400 max-w-2xl border-l-4 border-blue-500 pl-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -77,7 +85,7 @@ export default function Gazetteer() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden">
+            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-2 border-blue-500">
               <Image 
                 src={images[currentImage]} 
                 alt="Project screenshot" 
@@ -96,14 +104,14 @@ export default function Gazetteer() {
               </AnimatePresence>
               <button 
                 onClick={prevImage} 
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white text-zinc-950 rounded-full p-2 shadow-md transition-transform hover:scale-110"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               <button 
                 onClick={nextImage} 
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white text-zinc-950 rounded-full p-2 shadow-md transition-transform hover:scale-110"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
                 aria-label="Next image"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -119,29 +127,62 @@ export default function Gazetteer() {
           >
             <div>
               <h2 className="text-2xl font-semibold mb-4 text-white uppercase tracking-wide">Technologies</h2>
-              <ul className="flex flex-wrap gap-2">
-                {['HTML', 'CSS', 'JavaScript', 'jQuery', 'PHP'].map((tech) => (
-                  <li key={tech} className="bg-zinc-800 text-white px-3 py-1 rounded-full text-sm">{tech}</li>
+              <motion.ul className="flex flex-wrap gap-2">
+                {['HTML', 'CSS', 'JavaScript', 'jQuery', 'PHP'].map((tech, index) => (
+                  <motion.li 
+                    key={tech} 
+                    className="bg-zinc-800 text-white px-3 py-1 rounded-full text-sm border border-blue-500 cursor-pointer hover:bg-blue-500 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    {tech}
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
             </div>
             <div>
               <h2 className="text-2xl font-semibold mb-4 text-white uppercase tracking-wide">Key Features</h2>
               <ul className="space-y-2 text-zinc-400">
-                <li>• Mobile-first design</li>
-                <li>• Comprehensive country profiles</li>
-                <li>• Integration with third-party APIs</li>
-                <li>• Responsive layout</li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                  Mobile-first design
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                  Comprehensive country profiles
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                  Integration with third-party APIs
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                  Responsive layout
+                </li>
               </ul>
             </div>
-            <Link 
-              href="#" 
-              className="inline-flex items-center px-6 py-3 border-2 
-              border-white text-lg font-medium rounded-full text-white hover:bg-white hover:text-zinc-950 transition-colors"
+            <motion.div
+              whileHover={{ scale: 1.05, x: 5 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Visit Live Site
-              <ArrowUpRight className="ml-2 h-5 w-5" />
-            </Link>
+              <Link 
+                href="#" 
+                className="inline-flex items-center px-6 py-3 border-2 
+                border-blue-500 text-lg font-medium rounded-full text-white hover:bg-blue-500 transition-colors"
+              >
+                Visit Live Site
+                <motion.span
+                  className="ml-2"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                >
+                  <ArrowUpRight className="h-5 w-5" />
+                </motion.span>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -151,7 +192,7 @@ export default function Gazetteer() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
         >
-          <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight">Project Details</h2>
+          <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight inline-block border-b-2 border-blue-500 pb-2">Project Details</h2>
           <div className="prose prose-lg max-w-none text-zinc-400 space-y-6">
             <p>
               The Gazetteer project is a mobile-first website designed to provide comprehensive profiles for all countries. It presents demographic, climatic, and geographical data in an intuitive and visually appealing manner.
