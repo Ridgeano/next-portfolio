@@ -3,8 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
-import Link from 'next/link'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Montserrat } from 'next/font/google'
 
@@ -200,18 +199,31 @@ export default function NextJsPortfolio() {
         >
           <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight inline-block border-b-2 border-fuchsia-600 pb-2">Project Details</h2>
           <div className="prose prose-lg max-w-none text-zinc-400 space-y-6">
-            <p>
-              This Next.js Portfolio project represents a significant leap in my development skills, combining cutting-edge web technologies with 3D graphics to create a unique and engaging user experience. The standout feature is the hero container, which utilizes React Three Fiber to render an intricate, interactive 3D glass shard effect that immediately captures visitors' attention.
-            </p>
-            <p>
-              One of the main challenges was integrating the 3D elements seamlessly with the rest of the website while maintaining optimal performance. This required careful optimization of the Three.js scenes and judicious use of React's useEffect and useMemo hooks to manage render cycles efficiently.
-            </p>
-            <p>
-              The portfolio showcases my projects through a combination of static generation for faster initial page loads and client-side transitions for smooth navigation. Each project page features interactive elements that allow visitors to explore the technologies used and key features implemented.
-            </p>
-            <p>
-              Leveraging the power of Next.js and TypeScript, the codebase is structured for scalability and maintainability. The use of Tailwind CSS allowed for rapid styling iterations, while Framer Motion brought fluid animations to life, enhancing the overall user experience without compromising on performance.
-            </p>
+          <p>
+            This Next.js Portfolio project represents a significant leap in my development skills, 
+            combining cutting-edge web technologies with 3D graphics to create a unique and 
+            engaging user experience. The standout feature is the hero container, which utilizes 
+            React Three Fiber to render an intricate, interactive 3D glass shard effect that 
+            immediately captures visitors&apos; attention.
+          </p>
+          <p>
+            One of the main challenges was integrating the 3D elements seamlessly with the rest of the 
+            website while maintaining optimal performance. This required careful optimization of the 
+            Three.js scenes and judicious use of React&apos;s useEffect and useMemo hooks to manage 
+            render cycles efficiently.
+          </p>
+          <p>
+            The portfolio showcases my projects through a combination of static generation for faster 
+            initial page loads and client-side transitions for smooth navigation. Each project page 
+            features interactive elements that allow visitors to explore the technologies used and 
+            key features implemented.
+          </p>
+          <p>
+            Leveraging the power of Next.js and TypeScript, the codebase is structured for 
+            scalability and maintainability. The use of Tailwind CSS allowed for rapid styling 
+            iterations, while Framer Motion brought fluid animations to life, enhancing the overall 
+            user experience without compromising on performance.
+          </p>
           </div>
         </motion.div>
       </main>
