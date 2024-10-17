@@ -46,7 +46,7 @@ export default function Home() {
       <motion.main
       className="relative min-h-screen bg-zinc-100"
       initial={false}
-      animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "visible" }}
+      animate={isLoading ? { height: "100vh", overflow: "hidden" } : { height: "auto", overflow: "hidden" }}
       >
     <AnimatePresence>
       {isLoading && (

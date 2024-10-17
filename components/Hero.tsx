@@ -4,9 +4,9 @@ import GlassShards from "./ui/glassShards"
 
 export default function Hero() {
   return (
-    <div className="relative w-full h-screen overflow-hidden lowercase bg-zinc-950">
+    <div className="relative w-full min-h-screen overflow-hidden lowercase bg-zinc-950">
       <GlassShards />
-      <main className="absolute inset-0 flex flex-col justify-center items-start p-8 md:p-16 z-10">
+      <main className="absolute inset-0 flex flex-col justify-center items-start p-4 md:p-16 z-10">
         <motion.div 
           className="w-full max-w-3xl text-left"
           initial={{ opacity: 0, y: 20 }}
@@ -31,7 +31,7 @@ export default function Hero() {
           </motion.div>
         </motion.div>
         <motion.div 
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-0 left-0 right-0 flex justify-center pb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
