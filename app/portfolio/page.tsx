@@ -204,7 +204,7 @@ export default function NextJsPortfolio() {
             combining cutting-edge web technologies with 3D graphics to create a unique and 
             engaging user experience. The standout feature is the hero container, which utilizes 
             React Three Fiber to render an intricate, interactive 3D glass shard effect that 
-            immediately captures visitors&apos; attention.
+            immediately captures visitors&#39; attention.
           </p>
           <p>
             One of the main challenges was integrating the 3D elements seamlessly with the rest of the 
