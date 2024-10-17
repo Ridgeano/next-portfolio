@@ -41,7 +41,7 @@ export default function CompanyDirectory() {
             <motion.a
               href="/"
               onClick={handleBackClick}
-              className="inline-flex items-center text-white hover:bg-blue-400 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-600"
+              className="inline-flex items-center text-white hover:bg-blue-600 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-600"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
