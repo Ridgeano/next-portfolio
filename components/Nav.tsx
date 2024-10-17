@@ -5,7 +5,7 @@ import Link from 'next/link'
 const menuItems = [
   { title: "LinkedIn", href: "https://linkedin.com/in/sean-ridgeon-a49798124" },
   { title: "Resume", href: "https://example.com/resume" },
-  { title: "GitHub", href: "https://github.com/yourusername" },
+  { title: "GitHub", href: "https://github.com/ridgeano" },
 ]
 
 interface NavProps {

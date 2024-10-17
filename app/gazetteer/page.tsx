@@ -44,7 +44,7 @@ export default function Gazetteer() {
               className="inline-flex items-center text-white hover:text-zinc-300 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full"
             >
               <ChevronLeft className="h-5 w-5 mr-2" />
-              <span className="text-lg font-semibold uppercase tracking-wider">Back</span>
+              <span className="text-lg font-semibold lowercase tracking-wider">Back</span>
             </a>
           </div>
         </div>

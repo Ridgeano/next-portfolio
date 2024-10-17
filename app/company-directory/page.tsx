@@ -1,17 +1,19 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Montserrat } from 'next/font/google'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
-export default function Company() {
+export default function CompanyDirectory() {
   const [currentImage, setCurrentImage] = useState(0)
   const headerRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
   const images = [
     '/placeholder.svg?height=720&width=1280',
     '/placeholder.svg?height=720&width=1280',
@@ -26,76 +28,91 @@ export default function Company() {
     setCurrentImage((prev) => (prev - 1 + images.length) % images.length)
   }
 
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      const link = target.closest('a')
-      if (link && link.getAttribute('href')?.startsWith('#')) {
-        e.preventDefault()
-        const id = link.getAttribute('href')?.slice(1)
-        const element = document.getElementById(id!)
-        if (element) {
-          const headerHeight = headerRef.current?.offsetHeight || 0
-          const elementPosition = element.getBoundingClientRect().top
-          const offsetPosition = elementPosition + window.pageYOffset - headerHeight
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-          })
-        }
-      }
-    }
-
-    document.addEventListener('click', handleClick)
-    return () => document.removeEventListener('click', handleClick)
-  }, [])
+  const handleBackClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    router.replace('/')
+  }
 
   return (
-    <div className="min-h-screen bg-zinc-100">
-      <header ref={headerRef} className="bg-white shadow-sm fixed top-0 left-0 right-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <Link href="/" className="flex items-center text-zinc-900 hover:text-zinc-600">
-            <ChevronLeft className="h-5 w-5 mr-2" />
-            <span className="text-lg font-semibold lowercase">Back</span>
-          </Link>
+    <div className="min-h-screen bg-zinc-950 text-white">
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <motion.a
+              href="/"
+              onClick={handleBackClick}
+              className="inline-flex items-center text-white hover:bg-sky-400 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full border border-sky-500"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.span
+                className="mr-2"
+                animate={{ x: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </motion.span>
+              <span className="text-lg font-semibold lowercase tracking-wider">Back</span>
+            </motion.a>
+          </div>
         </div>
       </header>
 
-      <main className={`${montserrat.className} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12`} style={{ paddingTop: 'calc(1rem + var(--header-height, 64px))' }}>
-        <motion.h1 
-          className="text-4xl sm:text-5xl font-bold text-zinc-900 mb-6"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Company Directory
-        </motion.h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <main className={`${montserrat.className} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12`}>
+        <div className="pt-8 mb-16">
+          <motion.h1 
+            className="text-5xl sm:text-6xl md:text-8xl font-bold mb-6 text-white uppercase tracking-tighter"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Company Directory
+          </motion.h1>
+          <motion.p
+            className="text-xl sm:text-2xl text-zinc-400 max-w-2xl border-l-4 border-sky-500 pl-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            A comprehensive web application for managing and searching company personnel, departments, and locations.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
           <motion.div 
             className="lg:col-span-2"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="relative aspect-video bg-zinc-200 rounded-lg overflow-hidden">
+            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-2 border-sky-500">
               <Image 
                 src={images[currentImage]} 
                 alt="Project screenshot" 
                 layout="fill" 
                 objectFit="cover"
               />
+              <AnimatePresence>
+                <motion.div
+                  key={currentImage}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0 bg-zinc-900 bg-opacity-50"
+                />
+              </AnimatePresence>
               <button 
                 onClick={prevImage} 
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-sky-500 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               <button 
                 onClick={nextImage} 
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-sky-500 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
                 aria-label="Next image"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -104,65 +121,94 @@ export default function Company() {
           </motion.div>
 
           <motion.div 
-            className="space-y-6"
+            className="space-y-8"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
           >
             <div>
-              <h2 className="text-2xl font-semibold text-zinc-900 mb-2">Project Overview</h2>
-              <p className="text-zinc-600">
-                A mobile-first website that provides comprehensive profiles for all countries, presenting demographic, climatic, and geographical data using third-party APIs.
-              </p>
+              <h2 className="text-2xl font-semibold mb-4 text-white uppercase tracking-wide">Technologies</h2>
+              <motion.ul className="flex flex-wrap gap-2">
+                {['HTML', 'CSS', 'JavaScript', 'jQuery', 'PHP', 'MySQL'].map((tech, index) => (
+                  <motion.li 
+                    key={tech} 
+                    className="bg-zinc-800 text-white px-3 py-1 rounded-full text-sm border border-sky-500 cursor-pointer hover:bg-sky-500 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    {tech}
+                  </motion.li>
+                ))}
+              </motion.ul>
             </div>
             <div>
-              <h2 className="text-2xl font-semibold text-zinc-900 mb-2">Technologies Used</h2>
-              <ul className="list-disc list-inside text-zinc-600">
-                <li>HTML/CSS</li>
-                <li>JavaScript</li>
-                <li>jQuery (DOM Manipulation / AJAX)</li>
-                <li>PHP (cURL)</li>
+              <h2 className="text-2xl font-semibold mb-4 text-white uppercase tracking-wide">Key Features</h2>
+              <ul className="space-y-2 text-zinc-400">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-sky-500 rounded-full mr-2"></span>
+                  Mobile-first, responsive design
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-sky-500 rounded-full mr-2"></span>
+                  CRUD functionality for personnel management
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-sky-500 rounded-full mr-2"></span>
+                  Advanced search capabilities
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-sky-500 rounded-full mr-2"></span>
+                  Department and location management
+                </li>
               </ul>
             </div>
-            <div>
-              <h2 className="text-2xl font-semibold text-zinc-900 mb-2">Key Features</h2>
-              <ul className="list-disc list-inside text-zinc-600">
-                <li>Mobile-first design</li>
-                <li>Comprehensive country profiles</li>
-                <li>Integration with third-party APIs</li>
-                <li>Responsive layout for desktop and mobile</li>
-              </ul>
-            </div>
-            <Link 
-              href="#" 
-              className="inline-flex items-center px-4 py-2 border 
-              border-transparent text-base font-medium rounded-md shadow-sm text-white bg-violet-600 hover:bg-violet-700"
+            <motion.div
+              whileHover={{ scale: 1.05, x: 5 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Visit Live Site
-              <ArrowUpRight className="ml-2 h-5 w-5" />
-            </Link>
+              <Link 
+                href="#" 
+                className="inline-flex items-center px-6 py-3 border-2 
+                border-sky-500 text-lg font-medium rounded-full text-white hover:bg-sky-500 transition-colors"
+              >
+                Visit Live Site
+                <motion.span
+                  className="ml-2"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                >
+                  <ArrowUpRight className="h-5 w-5" />
+                </motion.span>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
 
         <motion.div 
-          className="mt-8"
+          className="mb-16"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
         >
-          <h2 className="text-3xl font-semibold text-zinc-900 mb-6">Project Details</h2>
-          <div className="prose prose-lg max-w-none text-zinc-600">
+          <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight inline-block border-b-2 border-sky-500 pb-2">Project Details</h2>
+          <div className="prose prose-lg max-w-none text-zinc-400 space-y-6">
             <p>
-              The Gazetteer project is designed as a &quot;mobile first&quot; website that operates equally well on desktop computers. It aims to provide comprehensive profiles for all countries, presenting demographic, climatic, and geographical data.
+              The Company Directory is a comprehensive web application designed to manage and display company personnel information.
             </p>
             <p>
-              One of the main challenges was integrating various third-party APIs to fetch and display accurate and up-to-date information for each country. We used PHP cURL for server-side requests to interact with these external APIs, ensuring data consistency and reliability.
+              One of the main challenges was implementing a robust search functionality that allows users to find staff, departments, and locations using single or multiple criteria. This required careful consideration of database design and query optimization to ensure fast and accurate results.
             </p>
             <p>
-              The user interface was built using HTML and CSS, with JavaScript and jQuery adding dynamic functionality and interactivity. This approach allowed us to create a responsive design that adapts seamlessly to different screen sizes, from mobile devices to desktop computers.
+              The user interface, built with HTML, CSS, and enhanced with JavaScript and jQuery, offers a responsive design that works seamlessly on both mobile devices and desktop computers. This approach ensures an optimal user experience across all platforms.
             </p>
             <p>
-              AJAX was utilized to handle asynchronous HTTP requests, providing a smooth user experience when fetching data for different countries without requiring page reloads. This resulted in a fast, efficient application that feels native on both mobile and desktop platforms.
+              By leveraging PHP for server-side processing and MySQL for data storage, we created a powerful and efficient backend system. The use of AJAX for asynchronous requests allows for smooth interactions and real-time updates without page reloads, resulting in a fast and responsive application.
+            </p>
+            <p>
+              To ensure data integrity and enhance user experience, comprehensive error checking has been implemented on both the front-end and back-end. This minimizes user errors, validates input data, and provides meaningful feedback, resulting in a robust and reliable system for managing company information.
             </p>
           </div>
         </motion.div>
