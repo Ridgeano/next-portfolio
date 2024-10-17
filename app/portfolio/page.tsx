@@ -10,7 +10,7 @@ import { Montserrat } from 'next/font/google'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
-export default function Gazetteer() {
+export default function NextJsPortfolio() {
   const [currentImage, setCurrentImage] = useState(0)
   const headerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
@@ -35,28 +35,28 @@ export default function Gazetteer() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <motion.a
-            href="/"
-            onClick={handleBackClick}
-            className="inline-flex items-center text-white hover:bg-sky-400 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full border border-sky-600"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <motion.span
-              className="mr-2"
-              animate={{ x: [0, -5, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
+      <header ref={headerRef} className="fixed top-0 left-0 right-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <motion.a
+              href="/"
+              onClick={handleBackClick}
+              className="inline-flex items-center text-white hover:bg-fuchsia-600 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full border border-fuchsia-600"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <ChevronLeft className="h-5 w-5" />
-            </motion.span>
-            <span className="text-lg font-semibold lowercase tracking-wider">Back</span>
-          </motion.a>
+              <motion.span
+                className="mr-2"
+                animate={{ x: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </motion.span>
+              <span className="text-lg font-semibold lowercase tracking-wider">Back</span>
+            </motion.a>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
 
       <main className={`${montserrat.className} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12`}>
         <div className="pt-8 mb-16">
@@ -66,15 +66,15 @@ export default function Gazetteer() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Gazetteer
+            Next.js Portfolio
           </motion.h1>
           <motion.p
-            className="text-xl sm:text-2xl text-zinc-400 max-w-2xl border-l-4 border-sky-600 pl-4"
+            className="text-xl sm:text-2xl text-zinc-400 max-w-2xl border-l-4 border-fuchsia-600 pl-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            A mobile-first website providing comprehensive country profiles with demographic, climatic, and geographical data.
+            A dynamic, 3D-enhanced portfolio website built with Next.js and React Three Fiber, showcasing my projects and skills as a web developer.
           </motion.p>
         </div>
 
@@ -85,7 +85,7 @@ export default function Gazetteer() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-2 border-sky-600">
+            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-2 border-fuchsia-600">
               <Image 
                 src={images[currentImage]} 
                 alt="Project screenshot" 
@@ -104,14 +104,14 @@ export default function Gazetteer() {
               </AnimatePresence>
               <button 
                 onClick={prevImage} 
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-sky-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-fuchsia-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               <button 
                 onClick={nextImage} 
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-sky-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-fuchsia-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
                 aria-label="Next image"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -128,10 +128,10 @@ export default function Gazetteer() {
             <div>
               <h2 className="text-2xl font-semibold mb-4 text-white uppercase tracking-wide">Technologies</h2>
               <motion.ul className="flex flex-wrap gap-2">
-                {['HTML', 'CSS', 'JavaScript', 'jQuery', 'PHP'].map((tech, index) => (
+                {['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'React Three Fiber', 'Framer Motion'].map((tech, index) => (
                   <motion.li 
                     key={tech} 
-                    className="bg-zinc-800 text-white px-3 py-1 rounded-full text-sm border border-sky-600 cursor-pointer hover:bg-sky-400 transition-colors"
+                    className="bg-zinc-800 text-white px-3 py-1 rounded-full text-sm border border-fuchsia-600 cursor-pointer hover:bg-fuchsia-600 transition-colors"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     initial={{ opacity: 0, y: 20 }}
@@ -147,41 +147,47 @@ export default function Gazetteer() {
               <h2 className="text-2xl font-semibold mb-4 text-white uppercase tracking-wide">Key Features</h2>
               <ul className="space-y-2 text-zinc-400">
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-sky-600 rounded-full mr-2"></span>
-                  Mobile-first design
+                  <span className="w-2 h-2 bg-fuchsia-600 rounded-full mr-2"></span>
+                  3D glass shard hero container
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-sky-600 rounded-full mr-2"></span>
-                  Comprehensive country profiles
+                  <span className="w-2 h-2 bg-fuchsia-600 rounded-full mr-2"></span>
+                  Responsive design with smooth animations
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-sky-600 rounded-full mr-2"></span>
-                  Integration with third-party APIs
+                  <span className="w-2 h-2 bg-fuchsia-600 rounded-full mr-2"></span>
+                  Server-side rendering for optimal performance
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-sky-600 rounded-full mr-2"></span>
-                  Responsive layout
+                  <span className="w-2 h-2 bg-fuchsia-600 rounded-full mr-2"></span>
+                  Interactive project showcases
                 </li>
               </ul>
             </div>
-            <motion.div
-              whileHover={{ scale: 1.05, x: 5 }}
+            <motion.div 
+            className="space-y-8"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <motion.div
+              whileHover={{ scale: 1.05, x: 0 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link 
-                href="#" 
+              <div 
                 className="inline-flex items-center px-6 py-3 border-2 
-                border-sky-600 text-lg font-medium rounded-full text-white hover:bg-sky-400 transition-colors"
+                border-fuchsia-600 text-lg font-medium rounded-full text-white hover:bg-fuchsia-600 transition-colors"
               >
-                Visit Live Site
+                Currently Viewing
                 <motion.span
                   className="ml-2"
-                  animate={{ x: [0, 5, 0] }}
+                  animate={{ x: [0, 0, 0] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
                 >
-                  <ArrowUpRight className="h-5 w-5" />
+                  <span className="block w-3 h-3 rounded-full bg-white"></span>
                 </motion.span>
-              </Link>
+              </div>
+            </motion.div>
             </motion.div>
           </motion.div>
         </div>
@@ -192,19 +198,19 @@ export default function Gazetteer() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
         >
-          <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight inline-block border-b-2 border-sky-600 pb-2">Project Details</h2>
+          <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight inline-block border-b-2 border-fuchsia-600 pb-2">Project Details</h2>
           <div className="prose prose-lg max-w-none text-zinc-400 space-y-6">
             <p>
-              The Gazetteer project is a mobile-first website designed to provide comprehensive profiles for all countries. It presents demographic, climatic, and geographical data in an intuitive and visually appealing manner.
+              This Next.js Portfolio project represents a significant leap in my development skills, combining cutting-edge web technologies with 3D graphics to create a unique and engaging user experience. The standout feature is the hero container, which utilizes React Three Fiber to render an intricate, interactive 3D glass shard effect that immediately captures visitors' attention.
             </p>
             <p>
-              One of the main challenges was integrating various third-party APIs to fetch and display accurate and up-to-date information for each country. We used PHP cURL for server-side requests, ensuring data consistency and reliability across the platform.
+              One of the main challenges was integrating the 3D elements seamlessly with the rest of the website while maintaining optimal performance. This required careful optimization of the Three.js scenes and judicious use of React's useEffect and useMemo hooks to manage render cycles efficiently.
             </p>
             <p>
-              The user interface, built with HTML, CSS, and enhanced with JavaScript and jQuery, offers a responsive design that adapts seamlessly to various screen sizes. This approach ensures an optimal viewing experience on both mobile devices and desktop computers.
+              The portfolio showcases my projects through a combination of static generation for faster initial page loads and client-side transitions for smooth navigation. Each project page features interactive elements that allow visitors to explore the technologies used and key features implemented.
             </p>
             <p>
-              By leveraging AJAX for asynchronous HTTP requests, we created a smooth and interactive user experience. Users can fetch data for different countries without page reloads, resulting in a fast and efficient application that feels native on any device.
+              Leveraging the power of Next.js and TypeScript, the codebase is structured for scalability and maintainability. The use of Tailwind CSS allowed for rapid styling iterations, while Framer Motion brought fluid animations to life, enhancing the overall user experience without compromising on performance.
             </p>
           </div>
         </motion.div>

@@ -41,7 +41,7 @@ export default function CompanyDirectory() {
             <motion.a
               href="/"
               onClick={handleBackClick}
-              className="inline-flex items-center text-white hover:bg-sky-400 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full border border-sky-500"
+              className="inline-flex items-center text-white hover:bg-blue-400 transition-colors bg-zinc-950 bg-opacity-50 backdrop-blur-sm px-4 py-2 rounded-full border border-blue-600"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -70,7 +70,7 @@ export default function CompanyDirectory() {
             Company Directory
           </motion.h1>
           <motion.p
-            className="text-xl sm:text-2xl text-zinc-400 max-w-2xl border-l-4 border-sky-500 pl-4"
+            className="text-xl sm:text-2xl text-zinc-400 max-w-2xl border-l-4 border-blue-600 pl-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -86,7 +86,7 @@ export default function CompanyDirectory() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-2 border-sky-500">
+            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-2 border-blue-600">
               <Image 
                 src={images[currentImage]} 
                 alt="Project screenshot" 
@@ -105,14 +105,14 @@ export default function CompanyDirectory() {
               </AnimatePresence>
               <button 
                 onClick={prevImage} 
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-sky-500 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
               <button 
                 onClick={nextImage} 
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-sky-500 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
                 aria-label="Next image"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -132,7 +132,7 @@ export default function CompanyDirectory() {
                 {['HTML', 'CSS', 'JavaScript', 'jQuery', 'PHP', 'MySQL'].map((tech, index) => (
                   <motion.li 
                     key={tech} 
-                    className="bg-zinc-800 text-white px-3 py-1 rounded-full text-sm border border-sky-500 cursor-pointer hover:bg-sky-500 transition-colors"
+                    className="bg-zinc-800 text-white px-3 py-1 rounded-full text-sm border border-blue-600 cursor-pointer hover:bg-blue-600 transition-colors"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     initial={{ opacity: 0, y: 20 }}
@@ -148,19 +148,19 @@ export default function CompanyDirectory() {
               <h2 className="text-2xl font-semibold mb-4 text-white uppercase tracking-wide">Key Features</h2>
               <ul className="space-y-2 text-zinc-400">
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-sky-500 rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
                   Mobile-first, responsive design
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-sky-500 rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
                   CRUD functionality for personnel management
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-sky-500 rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
                   Advanced search capabilities
                 </li>
                 <li className="flex items-center">
-                  <span className="w-2 h-2 bg-sky-500 rounded-full mr-2"></span>
+                  <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
                   Department and location management
                 </li>
               </ul>
@@ -172,7 +172,7 @@ export default function CompanyDirectory() {
               <Link 
                 href="#" 
                 className="inline-flex items-center px-6 py-3 border-2 
-                border-sky-500 text-lg font-medium rounded-full text-white hover:bg-sky-500 transition-colors"
+                border-blue-600 text-lg font-medium rounded-full text-white hover:bg-blue-600 transition-colors"
               >
                 Visit Live Site
                 <motion.span
@@ -193,7 +193,7 @@ export default function CompanyDirectory() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
         >
-          <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight inline-block border-b-2 border-sky-500 pb-2">Project Details</h2>
+          <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight inline-block border-b-2 border-blue-600 pb-2">Project Details</h2>
           <div className="prose prose-lg max-w-none text-zinc-400 space-y-6">
             <p>
               The Company Directory is a comprehensive web application designed to manage and display company personnel information.
