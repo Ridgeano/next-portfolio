@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Major_Mono_Display } from 'next/font/google'
 import { SmoothScroll } from '@/components/SmoothScroll'
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const majorMonoDisplay = Major_Mono_Display({
   subsets: ["latin"],
@@ -14,17 +14,15 @@ export const metadata: Metadata = {
   description: 'A self-motivated, forward-thinking Full Stack Developer with a keen interest in UX/UI',
 }
 
-export default function RootLayout({
+export default function ProjectLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${majorMonoDisplay.variable} font-major-mono antialiased`}>
-        <SmoothScroll>{children}</SmoothScroll>
-        <SpeedInsights />
-      </body>
-    </html>
+    <div className={`${majorMonoDisplay.variable}`}>
+      <SmoothScroll>{children}</SmoothScroll>
+      <SpeedInsights />
+    </div>
   )
 }
