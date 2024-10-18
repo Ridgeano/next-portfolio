@@ -13,34 +13,11 @@ import Summary from "@/components/Summary"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
-  const [isHeroVisible, setIsHeroVisible] = useState(true)
-  const heroRef = useRef<HTMLDivElement>(null)
   const [shouldShowPreloader, setShouldShowPreloader] = useState(false)
 
   const handleLoadingComplete = () => {
     setTimeout(() => setIsLoading(false), 300) 
   }
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsHeroVisible(entry.isIntersecting)
-      },
-      { threshold: 0.1 }
-    )
-
-    const currentHeroRef = heroRef.current
-
-    if (currentHeroRef) {
-      observer.observe(currentHeroRef)
-    }
-
-    return () => {
-      if (currentHeroRef) {
-        observer.unobserve(currentHeroRef)
-      }
-    }
-  }, [])
 
   useEffect(() => {
     const isInitialLoad = sessionStorage.getItem('initialLoad') === null;
@@ -77,10 +54,8 @@ export default function Home() {
       </AnimatePresence>
 
       <CursorFollower />
-      {!isLoading && <Nav isHeroVisible={isHeroVisible} />}
-      <div ref={heroRef}>
-        <Hero />
-      </div>
+      <Nav/>
+      <Hero />
       <FeaturedWork />
       <ScrollingBanner phrase={"What you can expect from me"} />
       <Summary />
