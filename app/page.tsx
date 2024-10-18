@@ -66,7 +66,7 @@ export default function Home() {
 
   return (
     <motion.main
-      className="relative min-h-dvh bg-zinc-100"
+      className="relative min-h-dvh bg-zinc-900"
       initial={false}
       animate={isLoading ? { height: "100dvh", overflow: "hidden" } : { height: "auto", overflow: "hidden" }}
     >

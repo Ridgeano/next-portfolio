@@ -100,7 +100,7 @@ export function Preloader({ onLoadingComplete }: PreloaderProps) {
     <AnimatePresence>
       {!isComplete && (
         <motion.div
-          className="fixed inset-0 flex items-center justify-center bg-zinc-950 overflow-hidden z-50"
+          className="fixed inset-0 flex items-center justify-center bg-zinc-900 overflow-hidden z-50"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}

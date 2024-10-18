@@ -9,7 +9,7 @@ export default function CursorFollower() {
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
 
-  const springConfig = { damping: 150, stiffness: 700 }
+  const springConfig = { damping: 100, stiffness: 2000 }
   const cursorXSpring = useSpring(cursorX, springConfig)
   const cursorYSpring = useSpring(cursorY, springConfig)
 

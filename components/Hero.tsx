@@ -4,7 +4,7 @@ import GlassShards from "./ui/glassShards"
 
 export default function Hero() {
   return (
-    <div className="relative w-full min-h-screen overflow-hidden lowercase bg-zinc-950">
+    <div className="relative w-full min-h-screen overflow-hidden lowercase bg-zinc-900">
       <GlassShards />
       <main className="absolute inset-0 flex flex-col justify-center items-start p-4 md:p-16 z-10">
         <motion.div 
