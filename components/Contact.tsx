@@ -1,8 +1,10 @@
-"use client"
+'use client'
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Montserrat } from 'next/font/google'
+import { useFormState } from 'react-dom'
+import { submitContactForm } from '@/api/contact'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
@@ -10,13 +12,13 @@ export default function Contact() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [state, formAction] = useFormState(submitContactForm, { errors: {}, message: '' })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', { name, email, message })
-    setName('')
-    setEmail('')
-    setMessage('')
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    formAction(formData)
   }
 
   return (
@@ -47,39 +49,45 @@ export default function Contact() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4 lowercase">
+            <form action={formAction} onSubmit={handleSubmit} className="space-y-3 md:space-y-4 lowercase">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-1">name</label>
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className={`${montserrat.className} w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none text-sm`}
                   required
                 />
+                {state.errors?.name && <p className="text-red-500 text-xs mt-1">{state.errors.name[0]}</p>}
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-1">email</label>
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className={`${montserrat.className} w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none text-sm`}
                   required
                 />
+                {state.errors?.email && <p className="text-red-500 text-xs mt-1">{state.errors.email[0]}</p>}
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium mb-1">message</label>
                 <textarea
                   id="message"
+                  name="message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={3}
                   className={`${montserrat.className} w-full px-3 py-2 bg-zinc-900 border-2 border-gray-700 rounded-md focus:border-violet-500 transition-colors duration-300 outline-none resize-none text-sm`}
                   required
                 ></textarea>
+                {state.errors?.message && <p className="text-red-500 text-xs mt-1">{state.errors.message[0]}</p>}
               </div>
               <motion.button
                 type="submit"
@@ -90,6 +98,16 @@ export default function Contact() {
                 send message
               </motion.button>
             </form>
+            {state.message && (
+              <motion.p 
+                className={`mt-4 text-center ${state.message.includes('error') ? 'text-red-500' : 'text-green-500'}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {state.message}
+              </motion.p>
+            )}
           </motion.div>
         </div>
         <footer className="text-center text-zinc-200 mt-6 md:mt-10 text-sm">
