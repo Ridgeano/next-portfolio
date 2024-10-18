@@ -8,11 +8,7 @@ const menuItems = [
   { title: "GitHub", href: "https://github.com/ridgeano" },
 ]
 
-interface NavProps {
-  isHeroVisible: boolean
-}
-
-export default function Nav({ isHeroVisible }: NavProps) {
+export default function Nav() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(true)
 
