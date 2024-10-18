@@ -225,6 +225,9 @@ export default function NextJsPortfolio() {
             user experience without compromising on performance.
           </p>
           </div>
+          <footer className="text-center text-zinc-200 mt-6 md:mt-10 text-sm">
+          <p>&copy; 2024 Sean Ridgeon. All rights reserved.</p>
+        </footer>
         </motion.div>
       </main>
     </div>

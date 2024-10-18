@@ -211,6 +211,9 @@ export default function CompanyDirectory() {
               To ensure data integrity and enhance user experience, comprehensive error checking has been implemented on both the front-end and back-end. This minimizes user errors, validates input data, and provides meaningful feedback, resulting in a robust and reliable system for managing company information.
             </p>
           </div>
+          <footer className="text-center text-zinc-200 mt-6 md:mt-10 text-sm">
+          <p>&copy; 2024 Sean Ridgeon. All rights reserved.</p>
+        </footer>
         </motion.div>
       </main>
     </div>

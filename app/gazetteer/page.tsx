@@ -207,6 +207,9 @@ export default function Gazetteer() {
               By leveraging AJAX for asynchronous HTTP requests, we created a smooth and interactive user experience. Users can fetch data for different countries without page reloads, resulting in a fast and efficient application that feels native on any device.
             </p>
           </div>
+          <footer className="text-center text-zinc-200 mt-6 md:mt-10 text-sm">
+          <p>&copy; 2024 Sean Ridgeon. All rights reserved.</p>
+        </footer>
         </motion.div>
       </main>
     </div>
