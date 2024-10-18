@@ -46,7 +46,7 @@ export default function Nav({ isHeroVisible }: NavProps) {
       <div className="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-4 mt-4 z-[40]">
         <div className="flex-1">
           <AnimatePresence>
-            {isHeroVisible && (
+            {(
               <motion.div
                 className="inline-block text-2xl font-bold text-white px-3 py-2 rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm"
                 initial={{ opacity: 0, y: -20 }}
