@@ -170,7 +170,8 @@ export default function CompanyDirectory() {
               whileTap={{ scale: 0.95 }}
             >
               <Link 
-                href="#" 
+                href="http://seanridgeon.infinityfreeapp.com/companydirectory/" 
+                rel="noopener noreferrer" target="_blank"
                 className="inline-flex items-center px-6 py-3 border-2 
                 border-blue-600 text-lg font-medium rounded-full text-white hover:bg-blue-600 transition-colors"
               >

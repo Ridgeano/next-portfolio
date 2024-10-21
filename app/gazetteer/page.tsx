@@ -169,7 +169,8 @@ export default function Gazetteer() {
               whileTap={{ scale: 0.95 }}
             >
               <Link 
-                href="#" 
+                href="http://seanridgeon.infinityfreeapp.com/gazetteer/" 
+                rel="noopener noreferrer" target="_blank"
                 className="inline-flex items-center px-6 py-3 border-2 
                 border-sky-600 text-lg font-medium rounded-full text-white hover:bg-sky-400 transition-colors"
               >
