@@ -42,20 +42,6 @@ export default function Nav() {
 
   return (
     <>
-      <style jsx global>{`
-        .glow-effect {
-          transition: box-shadow 0.3s ease-in-out;
-        }
-        .glow-effect:hover {
-          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
-        }
-        .glow-effect-intense {
-          transition: box-shadow 0.3s ease-in-out;
-        }
-        .glow-effect-intense:hover, .glow-effect-intense.active {
-          box-shadow: 0 0 20px rgba(139, 92, 246, 0.8);
-        }
-      `}</style>
       <div className="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-4 mt-4 z-[40]">
         <motion.div 
           className="flex-1"
@@ -63,12 +49,16 @@ export default function Nav() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <div className="inline-block text-2xl font-bold text-white px-3 py-2 rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm glow-effect">
+          <div className="inline-block text-2xl font-bold text-white px-3 py-2 rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm transition-shadow duration-300 ease-in-out hover:shadow-[0_0_15px_theme(colors.violet.500)]">
             {isMobile ? "sr" : "sean ridgeon"}
           </div>
         </motion.div>
         <motion.button
-          className={`w-12 h-12 flex justify-center items-center focus:outline-none rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm glow-effect-intense ${isOpen ? 'active' : ''}`}
+          className={`w-12 h-12 flex justify-center items-center focus:outline-none rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm transition-shadow duration-300 ease-in-out ${
+            isOpen
+              ? "shadow-[0_0_20px_theme(colors.violet.500)]"
+              : "hover:shadow-[0_0_20px_theme(colors.violet.500)]"
+          }`}
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? "Close menu" : "Open contact menu"}
           initial={{ opacity: 0, y: -20 }}

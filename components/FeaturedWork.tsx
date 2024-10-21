@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { projects } from '../lib/projects'
 
 export default function FeaturedWork() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
@@ -70,18 +69,28 @@ export default function FeaturedWork() {
               className="w-full"
             >
               <Link href={project.url} passHref>
-                <div
-                  className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group h-0 pb-[66.67%]"
-                  onMouseEnter={() => !isMobile && setHoveredIndex(index)}
-                  onMouseLeave={() => !isMobile && setHoveredIndex(null)}
+                <motion.div
+                  className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-0 pb-[66.67%] transition-shadow duration-300 ease-in-out hover:shadow-[0_0_20px_theme(colors.violet.500)]"
+                  whileHover="hover"
+                  initial="initial"
+                  animate="initial"
                 >
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent pt-8 pb-4 px-4 sm:px-6">
+                  <motion.div
+                    variants={{
+                      initial: { scale: 1 },
+                      hover: { scale: 1.05 }
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black to-transparent pt-8 pb-4 px-4 sm:px-6 z-10">
                     <h3 className="text-white text-xl sm:text-2xl font-bold mb-2">
                       {project.title}
                     </h3>
@@ -89,20 +98,7 @@ export default function FeaturedWork() {
                       {project.subtitle}
                     </p>
                   </div>
-                  {!isMobile && (
-                    <motion.div
-                      className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: hoveredIndex === index ? 1 : 0 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <span className="text-white text-lg font-semibold px-6 py-3 border-2 lowercase border-white rounded-full hover:bg-white hover:text-black transition-colors duration-300">
-                        View Project
-                      </span>
-                    </motion.div>
-                  )}
-                </div>
+                </motion.div>
               </Link>
             </motion.div>
           ))}
