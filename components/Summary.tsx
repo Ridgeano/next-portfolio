@@ -82,8 +82,6 @@ function CrystalShape() {
     }
   }, [detail])
 
-  const sphereScale = viewport.width < 4 ? 1.5 : 2
-
   const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
     setIsDragging(true)
     previousMousePosition.current = { x: event.clientX, y: event.clientY }
@@ -149,7 +147,7 @@ function CrystalShape() {
 function Scene() {
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 10]} />
+      <PerspectiveCamera makeDefault position={[0, 0, 12]} />
       <CrystalShape />
     </>
   )
