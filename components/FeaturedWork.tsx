@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { projects } from '../lib/projects'
 
 export default function FeaturedWork() {
-  const [isMobile, setIsMobile] = useState(false)
+  const [, setIsMobile] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const isInView = useInView(containerRef, { once: true, amount: 0.1 })
@@ -62,7 +62,7 @@ export default function FeaturedWork() {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <motion.div
               key={project.title}
               variants={itemVariants}
