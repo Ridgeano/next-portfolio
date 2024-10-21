@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
+"use client"
+
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
+import { User, X } from "lucide-react"
 
 const menuItems = [
   { title: "LinkedIn", href: "https://linkedin.com/in/sean-ridgeon-a49798124" },
@@ -39,35 +42,52 @@ export default function Nav() {
 
   return (
     <>
+      <style jsx global>{`
+        .glow-effect {
+          transition: box-shadow 0.3s ease-in-out;
+        }
+        .glow-effect:hover {
+          box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        }
+        .glow-effect-intense {
+          transition: box-shadow 0.3s ease-in-out;
+        }
+        .glow-effect-intense:hover, .glow-effect-intense.active {
+          box-shadow: 0 0 20px rgba(139, 92, 246, 0.8);
+        }
+      `}</style>
       <div className="fixed top-0 left-0 right-0 h-16 flex justify-between items-center px-4 mt-4 z-[40]">
-        <div className="flex-1">
-          <AnimatePresence>
-            {(
-              <motion.div
-                className="inline-block text-2xl font-bold text-white px-3 py-2 rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                {isMobile ? "sr" : "sean ridgeon"}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-        <button
-          className="w-12 h-12 flex flex-col justify-center 
-          items-center focus:outline-none rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
+        <motion.div 
+          className="flex-1"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-white rotate-45 translate-y-1' : 'bg-white'}`}></span>
-          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-white opacity-0' : 'bg-white opacity-100 my-1'}`}></span>
-          <span className={`block w-6 h-0.5 transition-all duration-300 ease-out ${isOpen ? 'bg-white -rotate-45 -translate-y-1' : 'bg-white'}`}></span>
-        </button>
+          <div className="inline-block text-2xl font-bold text-white px-3 py-2 rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm glow-effect">
+            {isMobile ? "sr" : "sean ridgeon"}
+          </div>
+        </motion.div>
+        <motion.button
+          className={`w-12 h-12 flex justify-center items-center focus:outline-none rounded-lg bg-zinc-950 bg-opacity-50 backdrop-blur-sm glow-effect-intense ${isOpen ? 'active' : ''}`}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close menu" : "Open contact menu"}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <motion.div
+            initial={false}
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {isOpen ? (
+              <X className="w-7 h-7 text-white" />
+            ) : (
+              <User className="w-7 h-7 text-white" />
+            )}
+          </motion.div>
+        </motion.button>
       </div>
-
-      
 
       <AnimatePresence>
         {isOpen && (
