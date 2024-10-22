@@ -1,153 +1,19 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useRef, useState, useEffect, useMemo } from 'react'
-import { Canvas, useFrame, useThree, ThreeEvent } from '@react-three/fiber'
+import { useRef } from 'react'
+import { Canvas } from '@react-three/fiber'
 import { PerspectiveCamera } from '@react-three/drei'
 import { Montserrat } from 'next/font/google'
-import * as THREE from 'three'
-import { useSpring, animated, config } from '@react-spring/three'
+import CrystalShape from './ui/crystalShape'
+import { Code, Blocks, Palette, Server, FileCode, Github, Globe, Database, Layout } from 'lucide-react'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
-
-function CrystalShape() {
-  const [detail, setDetail] = useState(0)
-  const meshRef = useRef<THREE.Mesh>(null)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const { viewport } = useThree()
-  const [rotation, setRotation] = useState<[number, number, number]>([0, 0, 0])
-  const [isDragging, setIsDragging] = useState(false)
-  const previousMousePosition = useRef({ x: 0, y: 0 })
-  const autoRotationSpeed = useRef<[number, number]>([0.001, 0.002])
-
-  const gradientTexture = useMemo(() => {
-    const canvas = document.createElement('canvas')
-    canvas.width = 1
-    canvas.height = 256
-    const ctx = canvas.getContext('2d')
-    if (ctx) {
-      const gradient = ctx.createLinearGradient(0, 0, 0, 256)
-      gradient.addColorStop(0, '#2563eb')
-      gradient.addColorStop(0.5, '#7c3aed')
-      gradient.addColorStop(1, '#c026d3')
-      ctx.fillStyle = gradient
-      ctx.fillRect(0, 0, 1, 256)
-    }
-    const texture = new THREE.CanvasTexture(canvas)
-    texture.needsUpdate = true
-    return texture
-  }, [])
-
-  const [spring, api] = useSpring(() => ({
-    scale: 1,
-    config: { ...config.gentle, clamp: true }
-  }))
-
-  useFrame(() => {
-    if (meshRef.current) {
-      if (!isDragging) {
-        meshRef.current.rotation.x += autoRotationSpeed.current[0]
-        meshRef.current.rotation.y += autoRotationSpeed.current[1]
-      } else {
-        meshRef.current.rotation.x += rotation[0] * 0.01
-        meshRef.current.rotation.y += rotation[1] * 0.01
-      }
-    }
-  })
-
-  const handleClick = (event: ThreeEvent<MouseEvent>) => {
-    event.stopPropagation()
-    if (isTransitioning) return
-
-    setIsTransitioning(true)
-
-    const currentScale = spring.scale.get()
-    const targetScale = currentScale * 0.8 // Shrink to 80% temporarily
-
-    api.start({
-      to: async (next) => {
-        await next({ scale: targetScale, config: { tension: 300, friction: 10 } })
-        setDetail((prevDetail) => (prevDetail === 2 ? 0 : prevDetail + 1))
-        await new Promise(resolve => setTimeout(resolve, 100))
-        await next({ scale: currentScale, config: { tension: 200, friction: 10 } })
-      },
-      onRest: () => setIsTransitioning(false)
-    })
-  }
-
-  useEffect(() => {
-    if (meshRef.current) {
-      meshRef.current.geometry.dispose()
-      meshRef.current.geometry = new THREE.IcosahedronGeometry(1, detail)
-    }
-  }, [detail])
-
-  const handlePointerDown = (event: ThreeEvent<PointerEvent>) => {
-    setIsDragging(true)
-    previousMousePosition.current = { x: event.clientX, y: event.clientY }
-  }
-
-  const handlePointerUp = () => {
-    setIsDragging(false)
-  }
-
-  const handlePointerMove = (event: ThreeEvent<PointerEvent>) => {
-    if (isDragging) {
-      const deltaX = event.clientX - previousMousePosition.current.x
-      const deltaY = event.clientY - previousMousePosition.current.y
-
-      setRotation([
-        rotation[0] + deltaY * 0.005,
-        rotation[1] + deltaX * 0.005,
-        0
-      ])
-
-      previousMousePosition.current = { x: event.clientX, y: event.clientY }
-    }
-  }
-
-  return (
-    <animated.mesh 
-      ref={meshRef} 
-      onClick={handleClick} 
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
-      onPointerOut={handlePointerUp}
-      onPointerMove={handlePointerMove}
-      scale={spring.scale.to(s => s * (viewport.width < 4 ? 1.5 : 2))}
-      position={[0, 0, 0]}
-    >
-      <icosahedronGeometry args={[1, detail]} />
-      <shaderMaterial
-        uniforms={{
-          gradientMap: { value: gradientTexture }
-        }}
-        vertexShader={`
-          varying vec3 vPosition;
-          void main() {
-            vPosition = position;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-        `}
-        fragmentShader={`
-          uniform sampler2D gradientMap;
-          varying vec3 vPosition;
-          void main() {
-            vec3 color = texture2D(gradientMap, vec2(0.5, (vPosition.y + 1.0) * 0.5)).rgb;
-            gl_FragColor = vec4(color, 1.0);
-          }
-        `}
-        wireframe={true}
-        wireframeLinewidth={1}
-      />
-    </animated.mesh>
-  )
-}
 
 function Scene() {
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 12]} />
+      <PerspectiveCamera makeDefault position={[0, 0, 5]} />
       <CrystalShape />
     </>
   )
@@ -176,59 +42,76 @@ export default function Summary() {
     }
   }
 
+  const skills = [
+    { name: 'React', icon: Code },
+    { name: 'Next.js', icon: Globe },
+    { name: 'Three.js & WebGL', icon: Blocks },
+    { name: 'Node.js & Express', icon: Server },
+    { name: 'UI/UX Design', icon: Layout },
+    { name: 'Python, Flask', icon: FileCode },
+    { name: 'JavaScript', icon: Code },
+    { name: 'PHP', icon: FileCode },
+    { name: 'jQuery', icon: Code },
+    { name: 'Git & MySQL', icon: Database },
+    { name: 'HTML5 & CSS', icon: Globe },
+    { name: 'Figma', icon: Palette },
+  ]
+
   return (
-    <div className="w-full bg-zinc-900 py-24 md:py-32 lg:py-40" id="summary">
+    <div className="w-full bg-zinc-900" id="summary">
       <motion.section 
         ref={ref}
-        className="w-full mx-auto px-4 sm:px-6 lg:px-8"
+        className="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-16 sm:py-20 lg:py-24"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
       >
-        <div className="flex flex-col md:flex-row items-start justify-between gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-12 items-center">
           <motion.div 
-            className="w-full md:w-1/2 order-2 md:order-1"
+            className="lg:col-span-1 xl:col-span-2 order-2 lg:order-1"
             variants={itemVariants}
           >
-            <div className="h-[350px] sm:h-[450px] md:h-[550px]">
+            <div className="aspect-square w-full max-w-[600px] mx-auto">
               <Canvas dpr={[1, 2]} performance={{ min: 0.5 }}>
                 <Scene />
               </Canvas>
             </div>
             <motion.p 
-              className="text-center text-white mt-4 text-sm font-medium"
+              className={`${montserrat.className} text-center text-white mt-4 text-base font-medium`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.5 }}
             >
-              Click to transform or drag to rotate the shape
+              Click to transform the shape
             </motion.p>
           </motion.div>
-          <motion.div className="w-full md:w-1/2 space-y-6 order-1 md:order-2 md:-mt-12" variants={itemVariants}>
-            <h2 className={`${montserrat.className} text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight`}>
-              Crafting Digital <span className="text-violet-500">Experiences</span> That Inspire
+          <motion.div className="lg:col-span-1 xl:col-span-3 space-y-6 order-1 lg:order-2 text-right" variants={itemVariants}>
+            <h2 className="lowercase text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+              Building Innovative Solutions with <span className="text-violet-500">Precision</span> and Passion
             </h2>
-            <p className="text-xl text-zinc-400 max-w-2xl">
+            <p className={`${montserrat.className} text-base sm:text-lg md:text-xl lg:text-2xl text-white w-full ml-auto`}>
               I focus on creating holistic digital solutions that seamlessly integrate frontend aesthetics with robust backend functionality. By prioritizing both technical excellence and user-centric design, I deliver exceptional web experiences.
             </p>
-            <ul className="grid grid-cols-2 gap-4 text-zinc-300">
-              <li className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-violet-500 rounded-full"></span>
-                <span>React & Next.js</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-violet-500 rounded-full"></span>
-                <span>Three.js & WebGL</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-violet-500 rounded-full"></span>
-                <span>Node.js & Express</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-violet-500 rounded-full"></span>
-                <span>UI/UX Design</span>
-              </li>
-            </ul>
+            <div className={`${montserrat.className} text-white w-full ml-auto`}>
+              <h3 className="text-xl sm:text-2xl font-semibold mb-4">Skills</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm sm:text-base">
+                {skills.map((skill, index) => (
+                  <div key={index} className="flex items-center justify-end space-x-2">
+                    <span>{skill.name}</span>
+                    <skill.icon className="w-5 h-5 text-violet-500" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={`${montserrat.className} mt-8 text-white text-base sm:text-lg md:text-xl w-full ml-auto space-y-6`}>
+              <p>
+                My journey has been one of continuous learning and adaptation. I studied Applied Computer Science at the University of Leeds and have also dedicated significant time to self-driven learning, all while balancing full-time roles in Gastronomy & Hospitality. This background has taught me the importance of resilience, problem-solving, and the ability to think outside the box when approaching complex challenges.
+              </p>
+              <hr className="border-t border-violet-500 w-1/2 ml-auto" />
+              <p>
+                When I'm not immersed in the world of code, you can find me indulging in various activities that fuel my creativity and keep me grounded. Whether it's hiking through nature, playing pool, swimming, or hitting the gym, I enjoy staying active. I also cherish time spent with friends and family, or diving into a good book, always striving for balance between work and relaxation.
+              </p>
+            </div>
           </motion.div>
         </div>
       </motion.section>

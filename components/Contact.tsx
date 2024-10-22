@@ -40,7 +40,7 @@ export default function Contact() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h3 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4">Get in Touch</h3>
-            <p className="mb-4 md:mb-6 text-gray-400 text-sm md:text-base">I&apos;m always looking for new opportunities. 
+            <p className="mb-4 md:mb-6 text-white text-sm md:text-base">I&apos;m always looking for new opportunities. 
               Send me a message and let&apos;s create something amazing.</p>
           </motion.div>
           <motion.div 
