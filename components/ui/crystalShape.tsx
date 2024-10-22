@@ -1,8 +1,7 @@
 'use client'
 
 import { useRef, useState, useEffect, useMemo } from 'react'
-import { Canvas, useFrame, useThree, ThreeEvent } from '@react-three/fiber'
-import { PerspectiveCamera } from '@react-three/drei'
+import { useFrame, useThree, ThreeEvent } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useSpring, animated, config } from '@react-spring/three'
 
@@ -138,14 +137,5 @@ export default function CrystalShape() {
         wireframeLinewidth={1}
       />
     </animated.mesh>
-  )
-}
-
-function Scene() {
-  return (
-    <>
-      <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-      <CrystalShape />
-    </>
   )
 }

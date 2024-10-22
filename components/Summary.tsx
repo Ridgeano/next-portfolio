@@ -6,7 +6,7 @@ import { Canvas } from '@react-three/fiber'
 import { PerspectiveCamera } from '@react-three/drei'
 import { Montserrat } from 'next/font/google'
 import CrystalShape from './ui/crystalShape'
-import { Code, Blocks, Palette, Server, FileCode, Github, Globe, Database, Layout } from 'lucide-react'
+import { Code, Blocks, Palette, Server, FileCode, Globe, Database, Layout } from 'lucide-react'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -109,7 +109,7 @@ export default function Summary() {
               </p>
               <hr className="border-t border-violet-500 w-1/2 ml-auto" />
               <p>
-                When I'm not immersed in the world of code, you can find me indulging in various activities that fuel my creativity and keep me grounded. Whether it's hiking through nature, playing pool, swimming, or hitting the gym, I enjoy staying active. I also cherish time spent with friends and family, or diving into a good book, always striving for balance between work and relaxation.
+                When I&apos;m not immersed in the world of code, you can find me indulging in various activities that fuel my creativity and keep me grounded. Whether it&apos;s hiking through nature, playing pool, swimming, or hitting the gym, I enjoy staying active. I also cherish time spent with friends and family, or diving into a good book, always striving for balance between work and relaxation.
               </p>
             </div>
           </motion.div>
