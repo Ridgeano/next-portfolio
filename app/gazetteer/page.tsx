@@ -15,9 +15,7 @@ export default function Gazetteer() {
   const headerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const images = [
-    '/placeholder.svg?height=720&width=1280',
-    '/placeholder.svg?height=720&width=1280',
-    '/placeholder.svg?height=720&width=1280',
+    '/gazetteer.png',
   ]
 
   const nextImage = () => {
@@ -99,7 +97,7 @@ export default function Gazetteer() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="absolute inset-0 bg-zinc-900 bg-opacity-50"
+                  className="absolute inset-0 "
                 />
               </AnimatePresence>
               <button 

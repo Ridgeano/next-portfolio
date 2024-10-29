@@ -7,7 +7,7 @@ export interface Project {
   title: string
   subtitle: string
   image: StaticImageData
-  url: string  // Added url property to the interface
+  url: string  
 }
 
 export const projects: Project[] = [
@@ -15,18 +15,18 @@ export const projects: Project[] = [
     title: "gazetteer",
     subtitle: "Web App",
     image: gazetteer,
-    url: "/gazetteer"  // Replace with actual project URL
+    url: "/gazetteer"  
   },
   {
     title: "company directory",
     subtitle: "Web App",
     image: company_dirt,
-    url: "/company-directory"  // Replace with actual project URL
+    url: "/company-directory"  
   },
   {
     title: "portfolio",
     subtitle: "next.js",
     image: nextjs_port,
-    url: "/portfolio"  // Replace with actual project URL
+    url: "/portfolio"  
   },
 ]
