@@ -73,7 +73,7 @@ export default function CompanyDirectory() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            A comprehensive web application for managing and searching company personnel, departments, and locations.
+            A comprehensive web application for managing and searching company personnel, departments and locations.
           </motion.p>
         </div>
 
@@ -195,19 +195,27 @@ export default function CompanyDirectory() {
           <h2 className="text-4xl font-bold mb-8 text-white uppercase tracking-tight inline-block border-b-2 border-blue-600 pb-2">Project Details</h2>
           <div className="prose prose-lg max-w-none text-zinc-400 space-y-6">
             <p>
-              The Company Directory is a comprehensive web application designed to manage and display company personnel information.
+              The Company Directory is a comprehensive web application designed to manage and display company 
+              personnel information.
             </p>
             <p>
-              One of the main challenges was implementing a robust search functionality that allows users to find staff, departments, and locations using single or multiple criteria. This required careful consideration of database design and query optimization to ensure fast and accurate results.
+              One of the main challenges was implementing a robust search functionality that allows users to 
+              find staff, departments and locations using single or multiple criteria. This required careful 
+              consideration of database design and query optimization to ensure fast and accurate results.
             </p>
             <p>
-              The user interface, built with HTML, CSS, and enhanced with JavaScript and jQuery, offers a responsive design that works seamlessly on both mobile devices and desktop computers. This approach ensures an optimal user experience across all platforms.
+              The user interface, built with HTML, CSS and enhanced with JavaScript & jQuery, offers a 
+              responsive design that works seamlessly on both mobile devices and desktop computers. This approach ensures an optimal user experience across all platforms.
             </p>
             <p>
-              By leveraging PHP for server-side processing and MySQL for data storage, we created a powerful and efficient backend system. The use of AJAX for asynchronous requests allows for smooth interactions and real-time updates without page reloads, resulting in a fast and responsive application.
+              By leveraging PHP for server-side processing and MySQL for data storage, I created a powerful and 
+              efficient backend system. The use of AJAX for asynchronous requests allows for smooth interactions 
+              and real-time updates without page reloads, resulting in a fast and responsive application.
             </p>
             <p>
-              To ensure data integrity and enhance user experience, comprehensive error checking has been implemented on both the front-end and back-end. This minimizes user errors, validates input data, and provides meaningful feedback, resulting in a robust and reliable system for managing company information.
+              To ensure data integrity and enhance user experience, comprehensive error checking has been implemented on both 
+              the front-end and back-end. This minimizes user errors, validates input data and provides meaningful feedback. 
+              Resulting in a robust and reliable system for managing company information.
             </p>
           </div>
           <footer className="text-center text-zinc-200 mt-6 md:mt-10 text-sm">

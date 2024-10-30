@@ -197,13 +197,13 @@ export default function Gazetteer() {
               The Gazetteer project is a mobile-first website designed to provide comprehensive profiles for all countries. It presents demographic, climatic, and geographical data in an intuitive and visually appealing manner.
             </p>
             <p>
-              One of the main challenges was integrating various third-party APIs to fetch and display accurate and up-to-date information for each country. We used PHP cURL for server-side requests, ensuring data consistency and reliability across the platform.
+              One of the main challenges was integrating various third-party APIs to fetch and display accurate and up-to-date information for each country. I used PHP cURL for server-side requests, ensuring data consistency and reliability across the platform.
             </p>
             <p>
-              The user interface, built with HTML, CSS, and enhanced with JavaScript and jQuery, offers a responsive design that adapts seamlessly to various screen sizes. This approach ensures an optimal viewing experience on both mobile devices and desktop computers.
+              The user interface, built with HTML, CSS, and enhanced with JavaScript & jQuery, offers a responsive design that adapts seamlessly to various screen sizes. This approach ensures an optimal viewing experience on both mobile devices and desktop computers.
             </p>
             <p>
-              By leveraging AJAX for asynchronous HTTP requests, we created a smooth and interactive user experience. Users can fetch data for different countries without page reloads, resulting in a fast and efficient application that feels native on any device.
+              By leveraging AJAX for asynchronous HTTP requests, I created a smooth and interactive user experience. Users can fetch data for different countries without page reloads, resulting in a fast and efficient application that feels native on any device.
             </p>
           </div>
           <footer className="text-center text-zinc-200 mt-6 md:mt-10 text-sm">
