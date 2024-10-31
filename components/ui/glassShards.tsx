@@ -2,7 +2,7 @@
 
 import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { MeshTransmissionMaterial, Environment, useDetectGPU, Text } from '@react-three/drei'
+import { MeshTransmissionMaterial, Environment, useDetectGPU } from '@react-three/drei'
 import * as THREE from 'three'
 
 interface ShardProps {
