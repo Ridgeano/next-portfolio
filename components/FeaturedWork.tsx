@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import Link from 'next/link'
 import { projects } from '../lib/projects'
 
@@ -87,7 +87,6 @@ export default function FeaturedWork() {
                     <Image
                       src={project.image}
                       alt={project.title}
-                      fill
                       className="object-cover"
                     />
                   </motion.div>

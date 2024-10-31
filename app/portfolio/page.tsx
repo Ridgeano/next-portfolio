@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from 'react'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft} from 'lucide-react'
 import { useRouter } from 'next/navigation'

@@ -1,4 +1,4 @@
-import { StaticImageData } from "next/image"
+import { StaticImageData } from "next/legacy/image"
 import gazetteer from '../public/gazetteer.png'
 import nextjs_port from '../public/nextjs-port.png'
 import company_dirt from '../public/companyDirectory.png'
