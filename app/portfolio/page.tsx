@@ -99,20 +99,6 @@ export default function NextJsPortfolio() {
                   className="absolute inset-0"
                 />
               </AnimatePresence>
-              <button 
-                onClick={prevImage} 
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-fuchsia-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <button 
-                onClick={nextImage} 
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-fuchsia-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
-                aria-label="Next image"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
             </div>
           </motion.div>
 
