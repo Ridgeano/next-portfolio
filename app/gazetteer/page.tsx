@@ -15,7 +15,9 @@ export default function Gazetteer() {
   const headerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const images = [
-    '/gazetteer.png',
+    '/gaz-1.png',
+    '/gaz-2.png',
+    '/gaz-3.png',
   ]
 
   const nextImage = () => {
@@ -88,7 +90,6 @@ export default function Gazetteer() {
                 src={images[currentImage]} 
                 alt="Project screenshot" 
                 layout="fill" 
-                objectFit="cover"
               />
               <AnimatePresence>
                 <motion.div
