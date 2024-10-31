@@ -3,27 +3,19 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft} from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Montserrat } from 'next/font/google'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
 export default function NextJsPortfolio() {
-  const [currentImage, setCurrentImage] = useState(0)
+  const [currentImage] = useState(0)
   const headerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const images = [
     '/nextjs-port.png',
   ]
-
-  const nextImage = () => {
-    setCurrentImage((prev) => (prev + 1) % images.length)
-  }
-
-  const prevImage = () => {
-    setCurrentImage((prev) => (prev - 1 + images.length) % images.length)
-  }
 
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault()

@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowUpRight, ChevronLeft} from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Montserrat } from 'next/font/google'
@@ -11,20 +11,12 @@ import { Montserrat } from 'next/font/google'
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
 export default function CompanyDirectory() {
-  const [currentImage, setCurrentImage] = useState(0)
+  const [currentImage] = useState(0)
   const headerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const images = [
     '/companyDirectory.png',
   ]
-
-  const nextImage = () => {
-    setCurrentImage((prev) => (prev + 1) % images.length)
-  }
-
-  const prevImage = () => {
-    setCurrentImage((prev) => (prev - 1 + images.length) % images.length)
-  }
 
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault()

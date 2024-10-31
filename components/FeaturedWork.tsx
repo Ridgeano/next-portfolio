@@ -70,7 +70,8 @@ export default function FeaturedWork() {
             >
               <Link href={project.url} passHref>
                 <motion.div
-                  className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-0 pb-[66.67%] transition-shadow duration-300 ease-in-out hover:shadow-[0_0_20px_theme(colors.violet.500)]"
+                  className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer h-0 pb-[66.67%] 
+                  transition-shadow duration-300 ease-in-out hover:shadow-[0_0_20px_theme(colors.violet.500)]"
                   whileHover="hover"
                   initial="initial"
                   animate="initial"
