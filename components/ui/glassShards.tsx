@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useMemo, useState, useEffect, useTransition } from 'react'
+import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { MeshTransmissionMaterial, Environment, useDetectGPU, Text } from '@react-three/drei'
 import * as THREE from 'three'
@@ -46,7 +46,7 @@ const extrudeSettings = {
   bevelEnabled: false,
 }
 
-function Shard({ position, rotation, scale, shape, isLowEnd }: ShardProps) {
+const Shard = React.memo(({ position, rotation, scale, shape, isLowEnd }: ShardProps) => {
   const mesh = useRef<THREE.Mesh>(null)
   const fallSpeed = useRef(0.005 + Math.random() * 0.01)
   const rotationSpeed = useRef({
@@ -75,43 +75,40 @@ function Shard({ position, rotation, scale, shape, isLowEnd }: ShardProps) {
       if (fpsHistory.current.length > 10) {
         fpsHistory.current.shift()
         const avgFps = fpsHistory.current.reduce((sum, fps) => sum + fps, 0) / fpsHistory.current.length
-        if (avgFps > 50) {
-          setResolution(360)
-        } else if (avgFps > 30) {
-          setResolution(180)
-        } else {
-          setResolution(90)
-        }
+        setResolution(avgFps > 50 ? 360 : avgFps > 30 ? 180 : 90)
       }
     }
   })
 
   const geometry = useMemo(() => new THREE.ExtrudeGeometry(shape, extrudeSettings), [shape])
 
+  const materialProps = useMemo(() => ({
+    backside: true,
+    backsideThickness: 0.2,
+    thickness: 0.1,
+    chromaticAberration: isLowEnd ? 0 : 0.05,
+    transmission: 0.95,
+    ior: 1.5,
+    distortion: isLowEnd ? 0.05 : 0.1,
+    distortionScale: isLowEnd ? 0.05 : 0.1,
+    temporalDistortion: isLowEnd ? 0 : 0.02,
+    attenuationDistance: 2,
+    attenuationColor: "#ffffff",
+    color: "#9333ea",
+    reflectivity: isLowEnd ? 0.7 : 0.9,
+    roughness: 0.2,
+    clearcoat: isLowEnd ? 0 : 0.1,
+    clearcoatRoughness: 0.1,
+    resolution: resolution,
+  }), [isLowEnd, resolution])
+
   return (
     <mesh ref={mesh} position={position} rotation={rotation} scale={scale} geometry={geometry}>
-      <MeshTransmissionMaterial
-        backside
-        backsideThickness={0.2}
-        thickness={0.1}
-        chromaticAberration={isLowEnd ? 0 : 0.05}
-        transmission={0.95}
-        ior={1.5}
-        distortion={isLowEnd ? 0.05 : 0.1}
-        distortionScale={isLowEnd ? 0.05 : 0.1}
-        temporalDistortion={isLowEnd ? 0 : 0.02}
-        attenuationDistance={2}
-        attenuationColor="#ffffff"
-        color="#9333ea"
-        reflectivity={isLowEnd ? 0.7 : 0.9}
-        roughness={0.2}
-        clearcoat={isLowEnd ? 0 : 0.1}
-        clearcoatRoughness={0.1}
-        resolution={resolution}
-      />
+      <MeshTransmissionMaterial {...materialProps} />
     </mesh>
   )
-}
+})
+Shard.displayName = 'Shard'
 
 interface ShardsProps {
   count: number
@@ -119,32 +116,22 @@ interface ShardsProps {
 }
 
 const Shards = React.memo(({ count, isLowEnd }: ShardsProps) => {
-  const [shards, setShards] = useState<ShardProps[]>([])
-  const [isPending, startTransition] = useTransition()
-
-  useEffect(() => {
-    startTransition(() => {
-      const newShards = Array.from({ length: count }, () => {
-        const size = isLowEnd ? Math.random() * 0.5 + 1 : Math.random() * 1 + 1.5
-        return {
-          position: [
-            (Math.random() - 0.5) * (isLowEnd ? 15 : 30),
-            Math.random() * (isLowEnd ? 15 : 30),
-            (Math.random() - 0.5) * (isLowEnd ? 10 : 25)
-          ] as [number, number, number],
-          rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
-          scale: [size, size, size] as [number, number, number],
-          shape: createRandomShape(isLowEnd),
-          isLowEnd: isLowEnd
-        }
-      })
-      setShards(newShards)
+  const shards = useMemo(() => {
+    return Array.from({ length: count }, () => {
+      const size = isLowEnd ? Math.random() * 0.5 + 1 : Math.random() * 1 + 1.5
+      return {
+        position: [
+          (Math.random() - 0.5) * (isLowEnd ? 15 : 30),
+          Math.random() * (isLowEnd ? 15 : 30),
+          (Math.random() - 0.5) * (isLowEnd ? 10 : 25)
+        ] as [number, number, number],
+        rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI] as [number, number, number],
+        scale: [size, size, size] as [number, number, number],
+        shape: createRandomShape(isLowEnd),
+        isLowEnd: isLowEnd
+      }
     })
   }, [count, isLowEnd])
-
-  if (isPending) {
-    return <Text color="white" anchorX="center" anchorY="middle" position={[0, 0, 0]}>Loading shards...</Text>
-  }
 
   return (
     <>
@@ -161,7 +148,7 @@ const Lighting = React.memo(() => (
 ))
 Lighting.displayName = 'Lighting'
 
-function CameraAdjuster({ isLowEnd }: { isLowEnd: boolean }) {
+const CameraAdjuster = React.memo(({ isLowEnd }: { isLowEnd: boolean }) => {
   const { camera } = useThree()
 
   useEffect(() => {
@@ -178,32 +165,33 @@ function CameraAdjuster({ isLowEnd }: { isLowEnd: boolean }) {
   }, [camera, isLowEnd])
 
   return null
-}
+})
+CameraAdjuster.displayName = 'CameraAdjuster'
 
 export default function GlassShards() {
   const [shardCount, setShardCount] = useState(7)
   const [isLowEnd, setIsLowEnd] = useState(false)
   const gpu = useDetectGPU()
 
-  useEffect(() => {
-    const checkDevice = () => {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-      const isLowEndDevice = gpu.tier < 2 || (isMobile && gpu.tier < 3)
-      setIsLowEnd(isLowEndDevice)
-      
-      if (isLowEndDevice) {
-        setShardCount(4)
-      } else if (isMobile || gpu.tier === 2) {
-        setShardCount(5)
-      } else {
-        setShardCount(7)
-      }
+  const checkDevice = useCallback(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    const isLowEndDevice = gpu.tier < 2 || (isMobile && gpu.tier < 3)
+    setIsLowEnd(isLowEndDevice)
+    
+    if (isLowEndDevice) {
+      setShardCount(4)
+    } else if (isMobile || gpu.tier === 2) {
+      setShardCount(5)
+    } else {
+      setShardCount(7)
     }
+  }, [gpu])
 
+  useEffect(() => {
     checkDevice()
     window.addEventListener('resize', checkDevice)
     return () => window.removeEventListener('resize', checkDevice)
-  }, [gpu])
+  }, [checkDevice])
 
   return (
     <div className="w-full h-screen">
