@@ -109,7 +109,7 @@ export default function Summary() {
               </p>
               <hr className="border-t border-violet-500 w-1/2 ml-auto" />
               <p>
-                When I&apos;m not immersed in the world of code, you can find me playing favourite games including
+                When I&apos;m not immersed in the world of code, you can find me playing favourite my games including
                 World of Warcraft, League of Legends, and MTG: Arena.
                 I enjoy building and tinkering with my 3D printer and contributing to the open-source Voron community.
                 I also stay active by going to the gym and enjoy spending time with friends and family.
