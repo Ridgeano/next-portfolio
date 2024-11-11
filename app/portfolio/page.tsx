@@ -74,7 +74,7 @@ export default function NextJsPortfolio() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-2 border-fuchsia-600">
+            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-4 border-fuchsia-600">
               <Image 
                 src={images[currentImage]} 
                 alt="Project screenshot" 

@@ -16,8 +16,6 @@ export default function Gazetteer() {
   const router = useRouter()
   const images = [
     '/gaz-1.png',
-    '/gaz-2.png',
-    '/gaz-3.png',
   ]
 
   const nextImage = () => {
@@ -85,7 +83,7 @@ export default function Gazetteer() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-2 border-sky-600">
+            <div className="relative aspect-video bg-zinc-800 rounded-lg overflow-hidden border-4 border-sky-600">
               <Image 
                 src={images[currentImage]} 
                 alt="Project screenshot" 
@@ -101,20 +99,7 @@ export default function Gazetteer() {
                   className="absolute inset-0 "
                 />
               </AnimatePresence>
-              <button 
-                onClick={prevImage} 
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-sky-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <button 
-                onClick={nextImage} 
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-sky-600 text-white rounded-full p-2 shadow-md transition-transform hover:scale-110"
-                aria-label="Next image"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
+
             </div>
           </motion.div>
 
