@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import Image from "next/legacy/image"
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowUpRight, ChevronLeft} from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Montserrat } from 'next/font/google'
@@ -17,14 +17,6 @@ export default function Gazetteer() {
   const images = [
     '/gaz-1.png',
   ]
-
-  const nextImage = () => {
-    setCurrentImage((prev) => (prev + 1) % images.length)
-  }
-
-  const prevImage = () => {
-    setCurrentImage((prev) => (prev - 1 + images.length) % images.length)
-  }
 
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault()
