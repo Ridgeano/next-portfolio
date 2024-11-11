@@ -11,7 +11,7 @@ import { Montserrat } from 'next/font/google'
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'] })
 
 export default function Gazetteer() {
-  const [currentImage, setCurrentImage] = useState(0)
+  const [currentImage] = useState(0)
   const headerRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const images = [
