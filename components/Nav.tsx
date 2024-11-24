@@ -7,7 +7,7 @@ import { User, X } from "lucide-react"
 
 const menuItems = [
   { title: "LinkedIn", href: "https://linkedin.com/in/sean-ridgeon" },
-  { title: "Résumé", href: "https://example.com/resume" },
+  //{ title: "Résumé", href: "https://example.com/resume" },
   { title: "GitHub", href: "https://github.com/ridgeano" },
 ]
 

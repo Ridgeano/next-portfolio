@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${majorMonoDisplay.variable} font-major-mono antialiased`}>
         <SmoothScroll>{children}</SmoothScroll>
-        <SpeedInsights />
+        <SpeedInsights/>
       </body>
     </html>
   )
